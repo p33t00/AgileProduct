@@ -7,6 +7,7 @@ module com.hkrsdgroup.agileproduct {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.sql;
+    requires commons.dbutils;
 
     opens com.hkrsdgroup.agileproduct to javafx.fxml;
     exports com.hkrsdgroup.agileproduct;
