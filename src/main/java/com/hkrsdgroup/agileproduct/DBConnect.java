@@ -5,29 +5,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnect {
-    private static Connection instance = null;
+    final private String dsn;
 
-    public static Connection getConnection(String dsn) {
-        if (instance == null) {
-            instance = new DBConnect().connect(dsn);
-        }
-        return instance;
+    public DBConnect(String dsn) {
+        this.dsn = dsn;
     }
-
-    private Connection connect(String dsn) {
+    public Connection connect() {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dsn);
         } catch (SQLException e) {
+            System.err.println("DB Connections error:");
             e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            System.exit(0);
         }
         return conn;
     }

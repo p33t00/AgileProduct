@@ -11,17 +11,8 @@ public class DBConnectTest {
     @Test
     public void shouldConnect() {
         ResourceBundle rb = ResourceBundle.getBundle("app");
-        Connection cnx = DBConnect.getConnection(rb.getString("dsn"));
+        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        Connection cnx = dbc.connect();
         assertInstanceOf(Connection.class, cnx);
     }
-
-    @Test
-    public void shouldConnectExactlyOnce() {
-        ResourceBundle rb = ResourceBundle.getBundle("app");
-        Connection cnx = DBConnect.getConnection(rb.getString("dsn"));
-        Connection cnxSame = DBConnect.getConnection(rb.getString("dsn"));
-
-        assertSame(cnx, cnxSame);
-    }
-
 }
