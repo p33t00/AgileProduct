@@ -1,8 +1,12 @@
 package com.hkrsdgroup.agileproduct;
 
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.sqlite.SQLiteDataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.apache.commons.dbutils.QueryRunner;
 
 public class DBConnect {
     final private String dsn;
@@ -10,15 +14,47 @@ public class DBConnect {
     public DBConnect(String dsn) {
         this.dsn = dsn;
     }
-    public Connection connect() {
-        Connection conn = null;
+
+    public SQLiteDataSource getDataSource() {
+        SQLiteDataSource ds = new SQLiteDataSource();
+        ds.setUrl(dsn);
+        return ds;
+    }
+
+    @SafeVarargs
+    public final <T> T getEntity(String query, ResultSetHandler<T> handler, T... vArgs) {
+        T result = null;
+        var run = new QueryRunner(getDataSource());
         try {
-            conn = DriverManager.getConnection(dsn);
-        } catch (SQLException e) {
-            System.err.println("DB Connections error:");
+            if (vArgs.length == 0) {
+                result = run.query (query, handler);
+            } else {
+                result = run.query(query, handler, vArgs);
+            }
+        } catch(SQLException e) {
             e.printStackTrace();
-            System.exit(0);
         }
-        return conn;
+        return result;
+    }
+
+    public int updateRawQuery(String q) {
+        Connection conn = null;
+        Statement stmt = null;
+        int result = 0;
+        try {
+            conn = getDataSource().getConnection();
+            stmt = conn.createStatement();
+            result = stmt.executeUpdate(q);
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }
