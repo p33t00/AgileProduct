@@ -21,8 +21,7 @@ public class DBConnect {
         return ds;
     }
 
-    @SafeVarargs
-    public final <T> T getEntity(String query, ResultSetHandler<T> handler, T... vArgs) {
+    public final <T> T getEntity(String query, ResultSetHandler<T> handler, Object... vArgs) {
         T result = null;
         var run = new QueryRunner(getDataSource());
         try {

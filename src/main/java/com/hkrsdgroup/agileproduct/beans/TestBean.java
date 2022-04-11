@@ -1,10 +1,15 @@
 package com.hkrsdgroup.agileproduct.beans;
 
-public class TestBean {
+public class TestBean implements AgileBean{
+    private final String table = "testing";
     private int id = 0;
     private String test_field = null;
 
     public TestBean() {
+    }
+
+    public String getTable() {
+        return this.table;
     }
 
     public TestBean(int id, String test_field) {
