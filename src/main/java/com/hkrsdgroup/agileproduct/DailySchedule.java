@@ -3,21 +3,21 @@ package com.hkrsdgroup.agileproduct;
 import java.util.ArrayList;
 import java.util.List;
 
-public class dailySchedule {
+public class DailySchedule {
 
     private int sleepAmount;
-    private double startDay;
-    private double endDay;
+    private int startDay;
+    private int endDay;
     private String assigment1;
     private String workout;
-    private final double breakfast = 30;
+    private final int breakfast = 30;
     private final int lunch = 60;
-    private final double shortSession = 30;
+    private final int shortSession = 30;
     private final int longSession = 120;
-    private final double shortBreak = 5;
-    private final double longBreak = 30;
+    private final int shortBreak = 5;
+    private final int longBreak = 30;
 
-    public dailySchedule(int sleep, String assignment, String workout, int beginDayHour){
+    public DailySchedule(int sleep, String assignment, String workout, int beginDayHour){
         this.sleepAmount = sleep*60;
         this.assigment1 = assignment;
         this.workout = workout;
@@ -79,33 +79,39 @@ public class dailySchedule {
         return daily;
     }
 
-    public String converter(double number){
-
-        int hour = (int) (number / 60);
-        int minutes = (int) (number % 60);
-
+    public String converter(int number){
+        int hour = (number / 60);
+        int minutes = (number % 60);
         String converted;
 
-        if(minutes == 0){
-            converted = Integer.toString(hour);
+        if(hour > 23){
+          hour =  hour - 24;
+        }
+
+        if(minutes < 10 && hour < 10){
+            converted = "0" + hour + ":0" + minutes;
+        }else if(minutes <10){
+            converted = hour + ":0" + minutes;
+        }else if(hour < 10){
+            converted = "0" + hour + ":" + minutes;
         }else{
-            converted = hour + ":" + minutes;
+            converted = hour + ":"+ minutes;
         }
 
         return converted;
     }
 
 
-    public double getStartDay() {
+    public int getStartDay() {
         return startDay;
     }
 
     public void setStartDay(int startDay) {
-        this.startDay = startDay;
+        this.startDay = startDay * 60;
     }
 
     public void setSleepAmount(int sleepAmount) {
-        this.sleepAmount = sleepAmount;
+        this.sleepAmount = sleepAmount * 60;
     }
 
     public void setAssigment1(String assigment1) {
@@ -128,15 +134,11 @@ public class dailySchedule {
         return workout;
     }
 
-    public double getEndDay() {
+    public int getEndDay() {
         return endDay;
     }
 
-    public void setStartDay(double startDay) {
-        this.startDay = startDay;
-    }
-
-    public void setEndDay(double endDay) {
+    public void setEndDay(int endDay) {
         this.endDay = endDay;
     }
 

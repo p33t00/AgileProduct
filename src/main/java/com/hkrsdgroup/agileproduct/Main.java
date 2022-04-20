@@ -12,7 +12,7 @@ public class Main {
         Main myMain = new Main();
 
         List<String> mySchedule = null;
-        ArrayList<weeklySchedule> myWeekList = new ArrayList<>();
+        ArrayList<WeeklySchedule> myWeekList = new ArrayList<>();
         int choice = 1337;
         while(choice != 0) {
             myMain.menu();
@@ -31,7 +31,7 @@ public class Main {
                     int dayStartMin = myScan.nextInt();
 
                     int dayStartTime = (dayStartHour * 60) + dayStartMin;
-                    dailySchedule myDay = new dailySchedule(sleepTime, lecture, workout, dayStartTime);
+                    DailySchedule myDay = new DailySchedule(sleepTime, lecture, workout, dayStartTime);
 
                     mySchedule = myDay.ScheduleDayOnlyShortSession();
                     break;
@@ -43,7 +43,7 @@ public class Main {
                     System.out.println("When does course end? ex:220421");
                     int endDate = myScan.nextInt();
 
-                    weeklySchedule myWeek = new weeklySchedule(course, diffLevel, endDate);
+                    WeeklySchedule myWeek = new WeeklySchedule(course, diffLevel, endDate);
                     myWeekList = myWeek.sortAddOnPriority(myWeekList, myWeek);
                     break;
                 case 3:
@@ -52,12 +52,12 @@ public class Main {
                     }
                     break;
                 case  4:
-                    for (uno.weeklySchedule weeklySchedule : myWeekList) {
+                    for (WeeklySchedule weeklySchedule : myWeekList) {
                         System.out.println(weeklySchedule);
                     }
                     break;
                 case 5:
-                    dailySchedule test = new dailySchedule(8, "course", "gym", 8);
+                    DailySchedule test = new DailySchedule(8, "course", "gym", 8);
                     int converted = (8 * 60) + 20;
                     String s = test.converter(converted);
                     System.out.println(s);

@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 
-public class weeklySchedule {
+public class WeeklySchedule {
 
     private String courseName;
     private String difficulty;
     private int endDate;
 
-    public weeklySchedule(String courseName, String difficulty, int endDate){
+    public WeeklySchedule(String courseName, String difficulty, int endDate){
         this.courseName = courseName;
         this.difficulty = difficulty;
         this.endDate = endDate;
     }
 
 
-    public ArrayList<weeklySchedule> sortAddOnPriority(ArrayList<weeklySchedule> myWeekList, weeklySchedule course){
+    public ArrayList<WeeklySchedule> sortAddOnPriority(ArrayList<WeeklySchedule> myWeekList, WeeklySchedule course){
         myWeekList.add(course);
-        myWeekList.sort(Comparator.comparing(weeklySchedule::getEndDate));
+        myWeekList.sort(Comparator.comparing(WeeklySchedule::getEndDate));
         return myWeekList;
     }
 
