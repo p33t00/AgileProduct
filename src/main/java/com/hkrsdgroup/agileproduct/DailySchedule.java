@@ -1,5 +1,7 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +103,6 @@ public class DailySchedule {
         return converted;
     }
 
-
     public int getStartDay() {
         return startDay;
     }
@@ -136,6 +137,14 @@ public class DailySchedule {
 
     public int getEndDay() {
         return endDay;
+    }
+
+    public List<DayScheduleItemBean> getDayScheduleItems() {
+        List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
+        scheduleItems.add(new DayScheduleItemBean("Eat food", "01:20"));
+        scheduleItems.add(new DayScheduleItemBean("Feed Cat", "02:30"));
+        scheduleItems.add(new DayScheduleItemBean("Study Math", "03:00"));
+        return scheduleItems;
     }
 
     public void setEndDay(int endDay) {

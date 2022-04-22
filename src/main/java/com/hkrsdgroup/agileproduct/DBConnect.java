@@ -1,10 +1,11 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.sqlite.SQLiteDataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 
@@ -55,5 +56,34 @@ public class DBConnect {
             }
         }
         return result;
+    }
+
+    public void insertDailyScheduleItems(List<DayScheduleItemBean> scheduleItems) {
+        Connection conn = null;
+        try {
+            conn = getDataSource().getConnection();
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO day_schedule_items (activity, time) VALUES (?,?);");
+            conn.setAutoCommit(false);
+
+            for (DayScheduleItemBean i : scheduleItems) {
+                stmt.setString(1, i.getActivity());
+                stmt.setString(2, i.getTime());
+                stmt.addBatch();
+            }
+
+            stmt.executeBatch();
+            conn.commit();
+        } catch (BatchUpdateException b) {
+            System.err.println("Butch insert error.");
+            b.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
