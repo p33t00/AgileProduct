@@ -8,7 +8,7 @@ module com.hkrsdgroup.agileproduct {
     requires eu.hansolo.tilesfx;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
-    requires commons.dbutils;
+    // requires commons.dbutils;
 
     opens com.hkrsdgroup.agileproduct to javafx.fxml;
     exports com.hkrsdgroup.agileproduct;

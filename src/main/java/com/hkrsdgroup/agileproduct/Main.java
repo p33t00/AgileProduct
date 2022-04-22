@@ -11,6 +11,7 @@ public class Main {
         Scanner myScan = new Scanner(System.in);
         Main myMain = new Main();
 
+        DailySchedule myDay = null;
         List<String> mySchedule = null;
         ArrayList<WeeklySchedule> myWeekList = new ArrayList<>();
         int choice = 1337;
@@ -31,9 +32,8 @@ public class Main {
                     int dayStartMin = myScan.nextInt();
 
                     int dayStartTime = (dayStartHour * 60) + dayStartMin;
-                    DailySchedule myDay = new DailySchedule(sleepTime, lecture, workout, dayStartTime);
+                    myDay = new DailySchedule(sleepTime, lecture, workout, dayStartTime);
 
-                    mySchedule = myDay.ScheduleDayOnlyShortSession();
                     break;
                 case 2:
                     System.out.println("Course name:");
@@ -47,8 +47,38 @@ public class Main {
                     myWeekList = myWeek.sortAddOnPriority(myWeekList, myWeek);
                     break;
                 case 3:
-                    for (String s : mySchedule) {
-                        System.out.println(s);
+                    System.out.println("Select schedule options:");
+                    System.out.println("1) for short sessions");
+                    System.out.println("2) for mixed sessions");
+                    System.out.println("3) for long sessions");
+
+                    int scheduleOption = myScan.nextInt();
+                    switch (scheduleOption){
+                        case 1:
+
+                            if (myDay != null) {
+                                mySchedule = myDay.ScheduleDayOnlyShortSession();
+                                for(String s : mySchedule){
+                                    System.out.println(s);
+                                }
+                            }
+                            break;
+                        case 2:
+                            if (myDay != null) {
+                                mySchedule = myDay.ScheduleDayMixedSession();
+                                for(String s : mySchedule){
+                                    System.out.println(s);
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (myDay != null) {
+                                mySchedule = myDay.ScheduleDayOnlyLongSession();
+                                for(String s : mySchedule){
+                                    System.out.println(s);
+                                }
+                            }
+                            break;
                     }
                     break;
                 case  4:
@@ -69,7 +99,7 @@ public class Main {
     public void menu(){
         System.out.println("1. enter profile info");
         System.out.println("2. Enter weekly info");
-        System.out.println("3. See daily schedule");
+        System.out.println("3. Select daily schedule type");
         System.out.println("4. see weekly schedule");
         System.out.println("0. to end");
     }

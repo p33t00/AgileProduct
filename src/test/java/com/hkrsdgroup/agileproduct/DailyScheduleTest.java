@@ -17,7 +17,7 @@ public class DailyScheduleTest {
     void testTimeConvert(){
         int dayStartTime = (8 * 60) + 30;
         DailySchedule myDay = new DailySchedule(8,"course","gym",dayStartTime);
-        String time = myDay.converter(myDay.getStartDay());
+        String time = myDay.converter(myDay.getClock());
 
         assertEquals("08:30",time);
     }
@@ -35,11 +35,11 @@ public class DailyScheduleTest {
     void testSmallSession(){
         int dayStartTime = (8 * 60) + 30;
         DailySchedule myDay = new DailySchedule(8,"course","gym",dayStartTime);
-        double originalTime = myDay.getStartDay();
+        double originalTime = myDay.getClock();
         String smallSession = myDay.smallSession();
 
         assertEquals("08:30 : course", smallSession);
-        assertNotEquals(originalTime, myDay.getStartDay());
+        assertNotEquals(originalTime, myDay.getClock());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class DailyScheduleTest {
         int dayStartTime = (8 * 60) + 30;
         DailySchedule myDay = new DailySchedule(8,"course","gym",dayStartTime);
 
-        assertEquals(dayStartTime, myDay.getStartDay());
+        assertEquals(dayStartTime, myDay.getClock());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class DailyScheduleTest {
         int dayStartTime = (8 * 60) + 30;
         DailySchedule myDay = new DailySchedule(8,"course","gym",dayStartTime);
 
-        assertEquals("course", myDay.getAssigment1());
+        assertEquals("course", myDay.getAssignment1());
     }
 
     @Test
@@ -86,9 +86,9 @@ public class DailyScheduleTest {
     void setStartDay(){
         int dayStartTime = (8 * 60) + 30;
         DailySchedule myDay = new DailySchedule(8,"course","gym",dayStartTime);
-        myDay.setStartDay(7);
+        myDay.setClock(7);
 
-        assertEquals(7*60, myDay.getStartDay());
+        assertEquals(7*60, myDay.getClock());
     }
 
     @Test
@@ -113,8 +113,8 @@ public class DailyScheduleTest {
     void setAssignment(){
         int dayStartTime = (8 * 60) + 30;
         DailySchedule myDay = new DailySchedule(8,"course","gym",dayStartTime);
-        myDay.setAssigment1("database");
+        myDay.setAssignment1("database");
 
-        assertEquals("database", myDay.getAssigment1());
+        assertEquals("database", myDay.getAssignment1());
     }
 }

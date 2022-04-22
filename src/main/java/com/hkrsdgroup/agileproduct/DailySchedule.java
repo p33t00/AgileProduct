@@ -6,9 +6,10 @@ import java.util.List;
 public class DailySchedule {
 
     private int sleepAmount;
+    private int clock;
     private int startDay;
     private int endDay;
-    private String assigment1;
+    private String assignment1;
     private String workout;
     private final int breakfast = 30;
     private final int lunch = 60;
@@ -19,46 +20,47 @@ public class DailySchedule {
 
     public DailySchedule(int sleep, String assignment, String workout, int beginDayHour){
         this.sleepAmount = sleep*60;
-        this.assigment1 = assignment;
+        this.assignment1 = assignment;
         this.workout = workout;
+        this.clock = beginDayHour;
         this.startDay = beginDayHour;
         this.endDay = (24*60 + beginDayHour) - sleepAmount;
     }
 
     public String breakfast(){
-        String start = converter(this.startDay) + " : Breakfast";
-        this.startDay += breakfast;
+        String start = converter(this.clock) + " : Breakfast";
+        this.clock += breakfast;
         return start;
     }
 
     public String smallSession(){
-        String smallStudySession = converter(this.startDay) + " : " +  this.assigment1;
-        this.startDay += this.shortSession;
+        String smallStudySession = converter(this.clock) + " : " +  this.assignment1;
+        this.clock += this.shortSession;
         return smallStudySession;
     }
 
     public String smallBreak(){
-        String smallBreakTime = converter(this.startDay) + " : Small break";
-        this.startDay += this.shortBreak;
+        String smallBreakTime = converter(this.clock) + " : Small break";
+        this.clock += this.shortBreak;
         return smallBreakTime;
     }
 
     public String longBreak(){
-        String longBreakTime = converter(this.startDay) + " : long break";
-        this.startDay += this.longBreak;
+        String longBreakTime = converter(this.clock) + " : long break";
+        this.clock += this.longBreak;
         return longBreakTime;
     }
 
     public String longSession(){
-        String longStudySession = converter(this.startDay) + " : " + this.assigment1;
-        this.startDay += this.longSession;
+        String longStudySession = converter(this.clock) + " : " + this.assignment1;
+        this.clock += this.longSession;
         return longStudySession;
     }
 
 
     public String lunch(){
-        String lunchTime = converter(this.startDay) + " : Lunch";
-        this.startDay += this.lunch;
+        String lunchTime = converter(this.clock) + " : Lunch";
+        this.clock += this.lunch;
         return lunchTime;
     }
 
@@ -66,18 +68,58 @@ public class DailySchedule {
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
-        while(this.startDay < 12*60){
+        while(this.clock < 12*60){
             daily.add(smallSession());
             daily.add(smallBreak());
         }
         daily.add(lunch());
-        while(this.startDay < 16*60){
+        while(this.clock < 16*60){
             daily.add(smallSession());
             daily.add(smallBreak());
         }
         daily.add(converter(this.endDay) + " : Goodnight!");
         return daily;
     }
+
+    public List<String> ScheduleDayOnlyLongSession(){
+        List<String> daily = new ArrayList<String>();
+
+        daily.add(breakfast());
+        while(this.clock < 12*60){
+            daily.add(longSession());
+            daily.add(longBreak());
+        }
+        daily.add(lunch());
+        while(this.clock < 16*60){
+            daily.add(longSession());
+            daily.add(longBreak());
+        }
+        daily.add(converter(this.endDay) + " : Goodnight!");
+        return daily;
+    }
+
+    public List<String> ScheduleDayMixedSession(){
+        List<String> daily = new ArrayList<String>();
+
+        daily.add(breakfast());
+        while(this.clock < 12*60){
+            daily.add(longSession());
+            daily.add(longBreak());
+            daily.add(smallSession());
+            daily.add(smallBreak());
+        }
+        daily.add(lunch());
+        while(this.clock < 16*60){
+            daily.add(longSession());
+            daily.add(longBreak());
+            daily.add(smallSession());
+            daily.add(smallBreak());
+        }
+        daily.add(converter(this.endDay) + " : Goodnight!");
+        return daily;
+    }
+
+
 
     public String converter(int number){
         int hour = (number / 60);
@@ -102,20 +144,20 @@ public class DailySchedule {
     }
 
 
-    public int getStartDay() {
-        return startDay;
+    public int getClock() {
+        return clock;
     }
 
-    public void setStartDay(int startDay) {
-        this.startDay = startDay * 60;
+    public void setClock(int clock) {
+        this.clock = clock * 60;
     }
 
     public void setSleepAmount(int sleepAmount) {
         this.sleepAmount = sleepAmount * 60;
     }
 
-    public void setAssigment1(String assigment1) {
-        this.assigment1 = assigment1;
+    public void setAssignment1(String assignment1) {
+        this.assignment1 = assignment1;
     }
 
     public void setWorkout(String workout) {
@@ -126,8 +168,8 @@ public class DailySchedule {
         return sleepAmount;
     }
 
-    public String getAssigment1() {
-        return assigment1;
+    public String getAssignment1() {
+        return assignment1;
     }
 
     public String getWorkout() {
@@ -146,8 +188,8 @@ public class DailySchedule {
     public String toString() {
         return "dailySchedule{" +
                 "sleepAmount=" + sleepAmount +
-                ", startDay=" + startDay +
-                ", assigment1='" + assigment1 + '\'' +
+                ", startDay=" + clock +
+                ", assigment1='" + assignment1 + '\'' +
                 ", workout='" + workout + '\'' +
                 ", breakfast=" + breakfast +
                 ", lunch=" + lunch +
