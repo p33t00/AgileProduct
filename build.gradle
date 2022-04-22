@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.hkrsdgroup.agileproduct'
-    mainClass = 'com.hkrsdgroup.agileproduct.HelloApplication'
+    mainClass = 'com.hkrsdgroup.agileproduct.TimageApplication'
 }
 
 javafx {
