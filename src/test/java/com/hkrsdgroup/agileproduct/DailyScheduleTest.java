@@ -1,5 +1,6 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,6 +81,16 @@ public class DailyScheduleTest {
         DailySchedule myDay = new DailySchedule(8,"course","gym",dayStartTime);
 
         assertEquals("00:30", myDay.converter(myDay.getEndDay()));
+    }
+
+    @Test
+    void getDayScheduleItems(){
+        DailySchedule myDay = new DailySchedule(8,"course","gym",510);
+
+        assertEquals(3, myDay.getDayScheduleItems().size());
+        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(0));
+        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(1));
+        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(2));
     }
 
     @Test

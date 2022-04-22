@@ -1,5 +1,6 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import com.hkrsdgroup.agileproduct.beans.TestBean;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -100,14 +102,51 @@ public class DBConnectTest {
         dropTestTable(dbc);
     }
 
-    private void createTestTable(DBConnect dbc) {
-        String q = "CREATE TABLE IF NOT EXISTS testing (" +
+    @Test
+    void shouldInsertDailyScheduleItems() {
+        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
+        scheduleItems.add(new DayScheduleItemBean("Eat food", "01:20"));
+        scheduleItems.add(new DayScheduleItemBean("Feed Cat", "02:30"));
+        scheduleItems.add(new DayScheduleItemBean("Study Math", "03:00"));
+
+        createDayScheduleItemsTable(dbc);
+        dbc.insertDailyScheduleItems(scheduleItems);
+
+        List<DayScheduleItemBean> resultItems = dbc.getEntity("SELECT * FROM day_schedule_items;",
+                new BeanListHandler<>(DayScheduleItemBean.class));
+
+        assertEquals(3, resultItems.size());
+
+        assertEquals(scheduleItems.get(0).getActivity(), resultItems.get(0).getActivity());
+        assertEquals(scheduleItems.get(1).getActivity(), resultItems.get(1).getActivity());
+        assertEquals(scheduleItems.get(2).getActivity(), resultItems.get(2).getActivity());
+
+        assertEquals(scheduleItems.get(0).getTime(), resultItems.get(0).getTime());
+        assertEquals(scheduleItems.get(1).getTime(), resultItems.get(1).getTime());
+        assertEquals(scheduleItems.get(2).getTime(), resultItems.get(2).getTime());
+
+        dropDayScheduleItemsTable(dbc);
+    }
+
+    private void createDayScheduleItemsTable(DBConnect dbc) {
+        dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS day_schedule_items (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                "test_field VARCHAR);";
-        dbc.updateRawQuery(q);
+                "activity VARCHAR(45)," +
+                "time VARCHAR(5)," +
+                "done TINYINT DEFAULT 0);");
+    }
+
+    private void createTestTable(DBConnect dbc) {
+        dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS testing (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "test_field VARCHAR);");
+
     }
 
     private void dropTestTable(DBConnect dbc) {
         dbc.updateRawQuery("DROP TABLE IF EXISTS testing;");
     }
+
+    private void dropDayScheduleItemsTable(DBConnect dbc) { dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;"); }
 }
