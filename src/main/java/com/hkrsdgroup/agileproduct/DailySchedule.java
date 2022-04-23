@@ -126,23 +126,11 @@ public class DailySchedule {
     public String converter(int number){
         int hour = (number / 60);
         int minutes = (number % 60);
-        String converted;
-
         if(hour > 23){
           hour =  hour - 24;
         }
 
-        if(minutes < 10 && hour < 10){
-            converted = "0" + hour + ":0" + minutes;
-        }else if(minutes <10){
-            converted = hour + ":0" + minutes;
-        }else if(hour < 10){
-            converted = "0" + hour + ":" + minutes;
-        }else{
-            converted = hour + ":"+ minutes;
-        }
-
-        return converted;
+        return String.format("%02d:%02d", hour, minutes);
     }
 
     public int getClock() {
