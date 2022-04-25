@@ -20,9 +20,8 @@ public class DailySchedule {
     private final int shortBreak = 5;
     private final int longBreak = 30;
 
-    public DailySchedule(int sleep, String assignment, String workout, int beginDayHour){
+    public DailySchedule(int sleep, String workout, int beginDayHour){
         this.sleepAmount = sleep*60;
-        this.assignment1 = assignment;
         this.workout = workout;
         this.clock = beginDayHour;
         this.startDay = beginDayHour;
@@ -80,6 +79,7 @@ public class DailySchedule {
             daily.add(smallBreak());
         }
         daily.add(converter(this.endDay) + " : Goodnight!");
+        this.clock = startDay;
         return daily;
     }
 
@@ -97,6 +97,7 @@ public class DailySchedule {
             daily.add(longBreak());
         }
         daily.add(converter(this.endDay) + " : Goodnight!");
+        this.clock = startDay;
         return daily;
     }
 
@@ -118,6 +119,7 @@ public class DailySchedule {
             daily.add(smallBreak());
         }
         daily.add(converter(this.endDay) + " : Goodnight!");
+        this.clock = startDay;
         return daily;
     }
 

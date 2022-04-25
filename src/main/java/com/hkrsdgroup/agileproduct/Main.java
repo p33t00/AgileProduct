@@ -12,6 +12,7 @@ public class Main {
         Main myMain = new Main();
 
         DailySchedule myDay = null;
+        WeeklySchedule myWeek = null;
         List<String> mySchedule = null;
         ArrayList<WeeklySchedule> myWeekList = new ArrayList<>();
         int choice = 1337;
@@ -22,8 +23,6 @@ public class Main {
                 case 1:
                     System.out.println("how many hours to sleep?");
                     int sleepTime = myScan.nextInt();
-                    System.out.println("what are you studying?");
-                    String lecture = myScan.next();
                     System.out.println("your type of workout");
                     String workout = myScan.next();
                     System.out.println("What hour to start?");
@@ -32,7 +31,7 @@ public class Main {
                     int dayStartMin = myScan.nextInt();
 
                     int dayStartTime = (dayStartHour * 60) + dayStartMin;
-                    myDay = new DailySchedule(sleepTime, lecture, workout, dayStartTime);
+                    myDay = new DailySchedule(sleepTime, workout, dayStartTime);
 
                     break;
                 case 2:
@@ -43,8 +42,8 @@ public class Main {
                     System.out.println("When does course end? ex:220421");
                     int endDate = myScan.nextInt();
 
-                    WeeklySchedule myWeek = new WeeklySchedule(course, diffLevel, endDate);
-                    myWeekList = myWeek.sortAddOnPriority(myWeekList, myWeek);
+                    myWeek = new WeeklySchedule(course, diffLevel, endDate);
+                    myWeekList = myWeek.sortAddOnEndDate(myWeekList, myWeek);
                     break;
                 case 3:
                     System.out.println("Select schedule options:");
@@ -87,11 +86,15 @@ public class Main {
                     }
                     break;
                 case 5:
-                    DailySchedule test = new DailySchedule(8, "course", "gym", 8);
+                    DailySchedule test = new DailySchedule(8, "gym", 8);
                     int converted = (8 * 60) + 20;
                     String s = test.converter(converted);
                     System.out.println(s);
-
+                    break;
+                case 6:
+                    ArrayList<List> completeSchedule = myWeek.CreateCompleteSchedule(myWeekList, myDay);
+                    for(List b : completeSchedule)
+                    System.out.println(b);
             }
         }
     }
@@ -103,4 +106,5 @@ public class Main {
         System.out.println("4. see weekly schedule");
         System.out.println("0. to end");
     }
+
 }
