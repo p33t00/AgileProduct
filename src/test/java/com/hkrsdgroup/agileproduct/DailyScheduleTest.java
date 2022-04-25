@@ -36,10 +36,23 @@ public class DailyScheduleTest {
     void testSmallSession(){
         int dayStartTime = (8 * 60) + 30;
         DailySchedule myDay = new DailySchedule(8, "gym",dayStartTime);
-        double originalTime = myDay.getClock();
+        int originalTime = myDay.getClock();
+        myDay.setAssignment1("course");
         String smallSession = myDay.smallSession();
 
         assertEquals("08:30 : course", smallSession);
+        assertNotEquals(originalTime, myDay.getClock());
+    }
+
+    @Test
+    void testLongSession(){
+        int dayStartTime = (8 * 60) + 30;
+        DailySchedule myDay = new DailySchedule(8, "gym",dayStartTime);
+        int originalTime = myDay.getClock();
+        myDay.setAssignment1("course");
+        String longSession = myDay.longSession();
+
+        assertEquals("08:30 : course", longSession);
         assertNotEquals(originalTime, myDay.getClock());
     }
 
@@ -57,14 +70,6 @@ public class DailyScheduleTest {
         DailySchedule myDay = new DailySchedule(8, "gym",dayStartTime);
 
         assertEquals(dayStartTime, myDay.getClock());
-    }
-
-    @Test
-    void getCourseName(){
-        int dayStartTime = (8 * 60) + 30;
-        DailySchedule myDay = new DailySchedule(8, "gym",dayStartTime);
-
-        assertEquals("course", myDay.getAssignment1());
     }
 
     @Test

@@ -37,23 +37,17 @@ public class WeeklySchedule {
         return difficultyInDays;
     }
 
-    public ArrayList<List> CreateCompleteSchedule(ArrayList<WeeklySchedule> courses, DailySchedule myDay){
+    public ArrayList<List> CreateCompleteSchedule(WeeklySchedule courses, DailySchedule myDay){
         ArrayList<List> CompleteSchedule = new ArrayList<>();
         int DaysOnCourse = 0;
 
-        //while(DaysOnCourse <= courses.size()){  //this fu**er doesn't work
-            while (courses.get(DaysOnCourse).getDifficulty() != 0) { // this loop works without outer loop...
-                myDay.setAssignment1(courses.get(DaysOnCourse).getCourseName());
+            while (courses.getDifficulty() != 0) {
+                myDay.setAssignment1(courses.getCourseName());
                 List<String> day = myDay.ScheduleDayMixedSession();
                 CompleteSchedule.add(day);
 
-                courses.get(DaysOnCourse).setDifficulty(getDifficulty() - 1);
-                System.out.println("inner loop test");
+                courses.setDifficulty(getDifficulty() - 1);
             }
-            //DaysOnCourse++;  // this creates infinite loop somehow
-            //System.out.println("outer loop test");
-        //}
-
         return CompleteSchedule;
     }
 

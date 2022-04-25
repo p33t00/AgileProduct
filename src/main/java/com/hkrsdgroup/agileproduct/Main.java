@@ -91,8 +91,8 @@ public class Main {
                     String s = test.converter(converted);
                     System.out.println(s);
                     break;
-                case 6:
-                    ArrayList<List> completeSchedule = myWeek.CreateCompleteSchedule(myWeekList, myDay);
+                case 6:  // still ongoing surgery
+                    ArrayList<List> completeSchedule = myWeek.CreateCompleteSchedule(myWeek, myDay);
                     for(List b : completeSchedule)
                     System.out.println(b);
             }
