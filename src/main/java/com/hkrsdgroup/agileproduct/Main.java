@@ -10,6 +10,7 @@ public class Main {
 
         Scanner myScan = new Scanner(System.in);
         Main myMain = new Main();
+        DBApi myConnection = new DBApi("dsn");
 
         DailySchedule myDay = null;
         WeeklySchedule myWeek = null;
@@ -23,6 +24,8 @@ public class Main {
                 case 1:
                     System.out.println("how many hours to sleep?");
                     int sleepTime = myScan.nextInt();
+                    System.out.println("what are you studying?");
+                    String lecture = myScan.next();
                     System.out.println("your type of workout");
                     String workout = myScan.next();
                     System.out.println("What hour to start?");
@@ -31,10 +34,11 @@ public class Main {
                     int dayStartMin = myScan.nextInt();
 
                     int dayStartTime = (dayStartHour * 60) + dayStartMin;
-                    myDay = new DailySchedule(sleepTime, workout, dayStartTime);
+                    myDay = new DailySchedule(sleepTime, lecture, workout, dayStartTime);
 
                     break;
                 case 2:
+                    /*
                     System.out.println("Course name:");
                     String course = myScan.next();
                     System.out.println("How difficult is it? easy/medium/hard");
@@ -44,8 +48,11 @@ public class Main {
 
                     myWeek = new WeeklySchedule(course, diffLevel, endDate);
                     myWeekList = myWeek.sortAddOnEndDate(myWeekList, myWeek);
+
+                     */
                     break;
                 case 3:
+                    /*
                     System.out.println("Select schedule options:");
                     System.out.println("1) for short sessions");
                     System.out.println("2) for mixed sessions");
@@ -53,37 +60,30 @@ public class Main {
 
                     int scheduleOption = myScan.nextInt();
                     switch (scheduleOption){
-                        case 1:
 
-                            if (myDay != null) {
-                                mySchedule = myDay.ScheduleDayOnlyShortSession();
-                                for(String s : mySchedule){
-                                    System.out.println(s);
-                                }
-                            }
+                        case 1:
+                            myDay.ScheduleDayOnlyShortSession();
                             break;
                         case 2:
-                            if (myDay != null) {
-                                mySchedule = myDay.ScheduleDayMixedSession();
-                                for(String s : mySchedule){
-                                    System.out.println(s);
-                                }
-                            }
+                            myDay.ScheduleDayMixedSession();
                             break;
                         case 3:
-                            if (myDay != null) {
-                                mySchedule = myDay.ScheduleDayOnlyLongSession();
-                                for(String s : mySchedule){
-                                    System.out.println(s);
-                                }
-                            }
+                            myDay.ScheduleDayOnlyLongSession();
                             break;
                     }
+
+
+                    myDay.ScheduleDayOnlyShortSession();
+
+                     */
                     break;
                 case  4:
+                    /*
                     for (WeeklySchedule weeklySchedule : myWeekList) {
                         System.out.println(weeklySchedule);
                     }
+
+                     */
                     break;
                 case 5:
                     DailySchedule test = new DailySchedule(8, "gym", 8);
@@ -91,10 +91,6 @@ public class Main {
                     String s = test.converter(converted);
                     System.out.println(s);
                     break;
-                case 6:  // still ongoing surgery
-                    ArrayList<List> completeSchedule = myWeek.CreateCompleteSchedule(myWeek, myDay);
-                    for(List b : completeSchedule)
-                    System.out.println(b);
             }
         }
     }

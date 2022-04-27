@@ -1,12 +1,12 @@
 package com.hkrsdgroup.agileproduct;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+
+import java.util.*;
 
 
 public class WeeklySchedule {
+    private final ResourceBundle rb = ResourceBundle.getBundle("app");
 
     private String courseName;
     private int difficulty;
@@ -37,20 +37,13 @@ public class WeeklySchedule {
         return difficultyInDays;
     }
 
-    public ArrayList<List> CreateCompleteSchedule(WeeklySchedule courses, DailySchedule myDay){
-        ArrayList<List> CompleteSchedule = new ArrayList<>();
-        int DaysOnCourse = 0;
-
-            while (courses.getDifficulty() != 0) {
-                myDay.setAssignment1(courses.getCourseName());
-                List<String> day = myDay.ScheduleDayMixedSession();
-                CompleteSchedule.add(day);
-
-                courses.setDifficulty(getDifficulty() - 1);
-            }
-        return CompleteSchedule;
+    /*
+    public void sendCoursesToDB(WeeklySchedule course){
+        DBApi dbc = new DBApi(rb.getString("dsn"));
+        dbc.insertWeeklyScheduleItems(course);
     }
 
+     */
 
     public String getCourseName() {
         return courseName;
@@ -77,8 +70,6 @@ public class WeeklySchedule {
     @Override
     public String toString() {
         return
-                " Course: " +courseName +
-                " Difficulty: " + difficulty +
-                " End of course: " + endDate;
+                courseName + difficulty + endDate;
     }
 }

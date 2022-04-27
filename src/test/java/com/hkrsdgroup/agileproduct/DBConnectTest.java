@@ -126,7 +126,7 @@ public class DBConnectTest {
         assertEquals(scheduleItems.get(1).getTime(), resultItems.get(1).getTime());
         assertEquals(scheduleItems.get(2).getTime(), resultItems.get(2).getTime());
 
-        dropDayScheduleItemsTable(dbc);
+        // dropDayScheduleItemsTable(dbc);
     }
 
     private void createDayScheduleItemsTable(DBConnect dbc) {

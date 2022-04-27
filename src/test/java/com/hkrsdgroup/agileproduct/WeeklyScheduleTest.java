@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 public class WeeklyScheduleTest {
 
     @Test
@@ -38,6 +38,7 @@ public class WeeklyScheduleTest {
         assertEquals(2, ShouldBeTwo);
     }
 
+    /*
     @Test
     void AssignCourseToDailySchedule(){
         WeeklySchedule myWeek = new WeeklySchedule("agile", "medium", 213221);
@@ -49,5 +50,10 @@ public class WeeklyScheduleTest {
         assertEquals(2, schedule.size());
     }
 
+
+
+
 }
+
+ */
 

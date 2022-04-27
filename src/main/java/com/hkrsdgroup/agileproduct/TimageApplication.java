@@ -7,8 +7,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class TimageApplication extends Application {
+
+
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TimageApplication.class.getResource("timage-view.fxml"));
@@ -19,6 +23,9 @@ public class TimageApplication extends Application {
     }
 
     public static void main(String[] args) {
+        ResourceBundle rb = ResourceBundle.getBundle("app");
+        DBApi myConnection = new DBApi(rb.getString("dsn"));
+        myConnection.initDB();
         launch();
     }
 }

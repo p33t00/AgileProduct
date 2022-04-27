@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
+import java.util.ResourceBundle;
+
 public class TimageController {
     @FXML
     private Label welcomeText;
@@ -19,12 +21,17 @@ public class TimageController {
 //    }
     @FXML
     void onDailyScheduleButtonClick(ActionEvent event) {
+        // this will print the schedule in the terminal(not in GUI)
+        DBApi myConn = new DBApi("dsn");
 
+        myConn.retrieveDailyScheduleFromDB();
     }
 
     @FXML
     void onFillProfileButtonClick(ActionEvent event) {
+        DailySchedule myDay = new DailySchedule(8, "agile" ,"gym", 510);
 
+        myDay.ScheduleDayOnlyLongSession();
     }
 
     @FXML

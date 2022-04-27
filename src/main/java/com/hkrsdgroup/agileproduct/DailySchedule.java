@@ -4,8 +4,10 @@ import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class DailySchedule {
+    private final ResourceBundle rb = ResourceBundle.getBundle("app");
 
     private int sleepAmount;
     private int clock;
@@ -28,44 +30,52 @@ public class DailySchedule {
         this.endDay = (24*60 + beginDayHour) - sleepAmount;
     }
 
+    public DailySchedule(int sleep,String course ,String workout, int beginDayHour){
+        this.sleepAmount = sleep*60;
+        this.workout = workout;
+        this.clock = beginDayHour;
+        this.startDay = beginDayHour;
+        this.endDay = (24*60 + beginDayHour) - sleepAmount;
+        this.assignment1 = course;
+    }
+
     public String breakfast(){
-        String start = converter(this.clock) + " : Breakfast";
+        String start = converter(this.clock) + " - Breakfast";
         this.clock += breakfast;
         return start;
     }
 
     public String smallSession(){
-        String smallStudySession = converter(this.clock) + " : " +  this.assignment1;
+        String smallStudySession = converter(this.clock) + " - " +  this.assignment1;
         this.clock += this.shortSession;
         return smallStudySession;
     }
 
     public String smallBreak(){
-        String smallBreakTime = converter(this.clock) + " : Small break";
+        String smallBreakTime = converter(this.clock) + " - Small break";
         this.clock += this.shortBreak;
         return smallBreakTime;
     }
 
     public String longBreak(){
-        String longBreakTime = converter(this.clock) + " : long break";
+        String longBreakTime = converter(this.clock) + " - long break";
         this.clock += this.longBreak;
         return longBreakTime;
     }
 
     public String longSession(){
-        String longStudySession = converter(this.clock) + " : " + this.assignment1;
+        String longStudySession = converter(this.clock) + " - " + this.assignment1;
         this.clock += this.longSession;
         return longStudySession;
     }
 
-
     public String lunch(){
-        String lunchTime = converter(this.clock) + " : Lunch";
+        String lunchTime = converter(this.clock) + " - Lunch";
         this.clock += this.lunch;
         return lunchTime;
     }
 
-    public List<String> ScheduleDayOnlyShortSession(){
+    public void ScheduleDayOnlyShortSession(){
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
@@ -78,12 +88,13 @@ public class DailySchedule {
             daily.add(smallSession());
             daily.add(smallBreak());
         }
-        daily.add(converter(this.endDay) + " : Goodnight!");
+        daily.add(converter(this.endDay) + " - Goodnight!");
         this.clock = startDay;
-        return daily;
+
+        sendDailyScheduleToDB(daily);
     }
 
-    public List<String> ScheduleDayOnlyLongSession(){
+    public void ScheduleDayOnlyLongSession(){
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
@@ -96,12 +107,13 @@ public class DailySchedule {
             daily.add(longSession());
             daily.add(longBreak());
         }
-        daily.add(converter(this.endDay) + " : Goodnight!");
+        daily.add(converter(this.endDay) + " - Goodnight!");
         this.clock = startDay;
-        return daily;
+
+        sendDailyScheduleToDB(daily);
     }
 
-    public List<String> ScheduleDayMixedSession(){
+    public void ScheduleDayMixedSession(){
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
@@ -118,12 +130,11 @@ public class DailySchedule {
             daily.add(smallSession());
             daily.add(smallBreak());
         }
-        daily.add(converter(this.endDay) + " : Goodnight!");
+        daily.add(converter(this.endDay) + " - Goodnight!");
         this.clock = startDay;
-        return daily;
+
+        sendDailyScheduleToDB(daily);
     }
-
-
 
     public String converter(int number){
         int hour = (number / 60);
@@ -133,6 +144,20 @@ public class DailySchedule {
         }
 
         return String.format("%02d:%02d", hour, minutes);
+    }
+
+    public void sendDailyScheduleToDB(List<String> schedule){
+        DBApi dbc = new DBApi(rb.getString("dsn"));
+        List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
+
+        for(int i = 0; i < schedule.size();i++){
+            String timeAndActivity = schedule.get(i);
+            String[] splitTimeAndActivity = timeAndActivity.split("-");
+
+            scheduleItems.add(new DayScheduleItemBean(splitTimeAndActivity[1], splitTimeAndActivity[0]));
+        }
+
+        dbc.insertDailyScheduleItems(scheduleItems);
     }
 
     public int getClock() {

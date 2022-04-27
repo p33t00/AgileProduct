@@ -2,10 +2,12 @@ package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.*;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.commons.dbutils.QueryRunner;
 
@@ -86,4 +88,8 @@ public class DBConnect {
             }
         }
     }
+
+
+
+
 }
