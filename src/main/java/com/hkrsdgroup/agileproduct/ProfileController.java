@@ -22,6 +22,9 @@ public class ProfileController {
     private TextField workoutType;
 
     @FXML
+    private TextField course;
+
+    @FXML
     void onSubmitClick(ActionEvent event) {
        int sleepTime = Integer.parseInt(sleepHour.getText());
        int studyHr = Integer.parseInt(studyHour.getText());
