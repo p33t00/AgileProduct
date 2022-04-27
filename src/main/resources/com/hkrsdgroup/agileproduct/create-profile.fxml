@@ -14,18 +14,20 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <TextField fx:id="sleepHour" layoutX="300.0" layoutY="130.0" />
-      <Text layoutX="154.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sleep Hours" />
-      <TextField fx:id="workoutType" layoutX="301.0" layoutY="175.0" />
-      <TextField fx:id="studyHour" layoutX="301.0" layoutY="221.0" />
-      <Text layoutX="141.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of Workout" />
-      <Text layoutX="135.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Hour to study" />
-      <Text layoutX="130.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start minute to study" />
-      <TextField fx:id="studyMinute" layoutX="301.0" layoutY="272.0" />
+      <TextField fx:id="sleepHour" layoutX="301.0" layoutY="109.0" />
+      <Text layoutX="154.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sleep Hours" />
+      <TextField fx:id="workoutType" layoutX="301.0" layoutY="148.0" />
+      <TextField fx:id="studyHour" layoutX="301.0" layoutY="187.0" />
+      <Text layoutX="141.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of Workout" />
+      <Text layoutX="135.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Hour to study" />
+      <Text layoutX="130.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start minute to study" />
+      <TextField fx:id="studyMinute" layoutX="301.0" layoutY="225.0" />
       <Button layoutX="268.0" layoutY="332.0" mnemonicParsing="false" onAction="#onSubmitClick" text="Submit">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+      <Text layoutX="167.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course" />
+      <TextField fx:id="course" layoutX="301.0" layoutY="264.0" />
    </children>
 </AnchorPane>
