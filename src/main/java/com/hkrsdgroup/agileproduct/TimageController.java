@@ -2,14 +2,26 @@ package com.hkrsdgroup.agileproduct;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 import java.util.ResourceBundle;
 
 public class TimageController {
     @FXML
-    private Label welcomeText;
+//    private Label welcomeText;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    private
 
 //    @FXML
 //    protected void onHelloButtonClick() {
@@ -28,10 +40,12 @@ public class TimageController {
     }
 
     @FXML
-    void onFillProfileButtonClick(ActionEvent event) {
-        DailySchedule myDay = new DailySchedule(8, "agile" ,"gym", 510);
-
-        myDay.ScheduleDayOnlyLongSession();
+    void onFillProfileButtonClick(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("create-profile.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
