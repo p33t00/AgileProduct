@@ -22,7 +22,7 @@ public class ProfileController {
     private TextField workoutType;
 
     @FXML
-    private TextField course;
+    private TextField courseName;
 
     @FXML
     void onSubmitClick(ActionEvent event) {
@@ -30,8 +30,9 @@ public class ProfileController {
        int studyHr = Integer.parseInt(studyHour.getText());
        int studyMin = Integer.parseInt(studyMinute.getText());
        String workout = workoutType.getText();
+       String course = courseName.getText();
        int dayStartTime = (studyHr * 60) + studyMin;
-       DailySchedule myDay = new DailySchedule(sleepTime, workout, dayStartTime);
+       DailySchedule myDay = new DailySchedule(sleepTime, course, workout, dayStartTime);
 
        myDay.ScheduleDayOnlyLongSession();
     }

@@ -28,6 +28,6 @@
          </font>
       </Button>
       <Text layoutX="167.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course" />
-      <TextField fx:id="course" layoutX="301.0" layoutY="264.0" />
+      <TextField fx:id="courseName" layoutX="301.0" layoutY="264.0" />
    </children>
 </AnchorPane>
