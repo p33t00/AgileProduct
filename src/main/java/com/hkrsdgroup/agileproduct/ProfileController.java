@@ -23,10 +23,13 @@ public class ProfileController {
 
     @FXML
     void onSubmitClick(ActionEvent event) {
+       int sleepTime = Integer.parseInt(sleepHour.getText());
+       int studyHr = Integer.parseInt(studyHour.getText());
+       int studyMin = Integer.parseInt(studyMinute.getText());
+       String workout = workoutType.getText();
+       int dayStartTime = (studyHr * 60) + studyMin;
+       DailySchedule myDay = new DailySchedule(sleepTime, workout, dayStartTime);
 
-//        sleepTime = Integer.parseInt(sleepHour.getText());
-//        studyHr = Integer.parseInt(sleepHour.getText());
-//        studyMin = Integer.parseInt(sleepHour.getText());
-//        workout = sleepHour.getText();
+       myDay.ScheduleDayOnlyLongSession();
     }
 }
