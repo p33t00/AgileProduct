@@ -33,6 +33,6 @@ public class ProfileController {
        int dayStartTime = (studyHr * 60) + studyMin;
        DailySchedule myDay = new DailySchedule(sleepTime, course, workout, dayStartTime);
 
-       myDay.ScheduleDayOnlyLongSession();
+       myDay.sendDailyScheduleToDB(myDay.ScheduleDayOnlyLongSession());
     }
 }

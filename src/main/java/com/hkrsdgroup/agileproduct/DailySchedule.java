@@ -75,7 +75,7 @@ public class DailySchedule {
         return lunchTime;
     }
 
-    public void ScheduleDayOnlyShortSession(){
+    public List<String> ScheduleDayOnlyShortSession(){
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
@@ -91,10 +91,10 @@ public class DailySchedule {
         daily.add(converter(this.endDay) + " - Goodnight!");
         this.clock = startDay;
 
-        sendDailyScheduleToDB(daily);
+        return daily;
     }
 
-    public void ScheduleDayOnlyLongSession(){
+    public List<String> ScheduleDayOnlyLongSession(){
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
@@ -110,10 +110,10 @@ public class DailySchedule {
         daily.add(converter(this.endDay) + " - Goodnight!");
         this.clock = startDay;
 
-        sendDailyScheduleToDB(daily);
+        return daily;
     }
 
-    public void ScheduleDayMixedSession(){
+    public List<String> ScheduleDayMixedSession(){
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
@@ -133,7 +133,7 @@ public class DailySchedule {
         daily.add(converter(this.endDay) + " - Goodnight!");
         this.clock = startDay;
 
-        sendDailyScheduleToDB(daily);
+        return daily;
     }
 
     public String converter(int number){

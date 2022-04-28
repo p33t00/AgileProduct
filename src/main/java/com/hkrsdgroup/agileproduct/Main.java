@@ -10,7 +10,7 @@ public class Main {
 
         Scanner myScan = new Scanner(System.in);
         Main myMain = new Main();
-        DBApi myConnection = new DBApi("dsn");
+        // DBApi myConnection = new DBApi("dsn");
 
         DailySchedule myDay = null;
         WeeklySchedule myWeek = null;
@@ -52,7 +52,6 @@ public class Main {
                      */
                     break;
                 case 3:
-                    /*
                     System.out.println("Select schedule options:");
                     System.out.println("1) for short sessions");
                     System.out.println("2) for mixed sessions");
@@ -60,22 +59,19 @@ public class Main {
 
                     int scheduleOption = myScan.nextInt();
                     switch (scheduleOption){
-
                         case 1:
-                            myDay.ScheduleDayOnlyShortSession();
+                            mySchedule = myDay.ScheduleDayOnlyShortSession();
                             break;
                         case 2:
-                            myDay.ScheduleDayMixedSession();
+                           mySchedule = myDay.ScheduleDayMixedSession();
                             break;
                         case 3:
-                            myDay.ScheduleDayOnlyLongSession();
+                           mySchedule = myDay.ScheduleDayOnlyLongSession();
                             break;
                     }
-
-
-                    myDay.ScheduleDayOnlyShortSession();
-
-                     */
+                    for(String s : mySchedule){
+                        System.out.println(s);
+                    }
                     break;
                 case  4:
                     /*
@@ -84,12 +80,6 @@ public class Main {
                     }
 
                      */
-                    break;
-                case 5:
-                    DailySchedule test = new DailySchedule(8, "gym", 8);
-                    int converted = (8 * 60) + 20;
-                    String s = test.converter(converted);
-                    System.out.println(s);
                     break;
             }
         }
