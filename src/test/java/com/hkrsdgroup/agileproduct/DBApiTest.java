@@ -18,7 +18,7 @@ class DBApiTest {
 
     @Test
     void retrieveDailyScheduleFromDB() {
-        DBApi dbc = new DBApi(rb.getString("dsn"));
+        DBApi dbc = new DBApi(rb.getString("dsn-test"));
         List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
         scheduleItems.add(new DayScheduleItemBean("Eat food", "01:20"));
         scheduleItems.add(new DayScheduleItemBean("Feed Cat", "02:30"));
