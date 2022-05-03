@@ -24,7 +24,7 @@ public class DBConnectTest {
     @Test
     @Order(1)
     void shouldGetDataSource() {
-        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
         SQLiteDataSource ds = dbc.getDataSource();
         assertInstanceOf(SQLiteDataSource.class, ds);
     }
@@ -32,7 +32,7 @@ public class DBConnectTest {
     @Test
     @Order(2)
     void shouldRunUpdateQuery() throws SQLException {
-        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
         // init DB
         createTestTable(dbc);
 
@@ -51,7 +51,7 @@ public class DBConnectTest {
     @Order(3)
     void shouldGetEntity() {
         String assertVal = "Hallo world";
-        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
         // init DB
         createTestTable(dbc);
         // inserting dummy data
@@ -67,7 +67,7 @@ public class DBConnectTest {
     @Order(4)
     void shouldGetEntityByArgs() {
         String assertVal = "Hallo world";
-        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
         // init DB
         createTestTable(dbc);
         // inserting dummy data
@@ -87,7 +87,7 @@ public class DBConnectTest {
     void shouldGetEntityList() {
         String assertVal1 = "Hallo world";
         String assertVal2 = "Bye world";
-        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
         // init DB
         createTestTable(dbc);
         // inserting dummy data
@@ -104,7 +104,7 @@ public class DBConnectTest {
 
     @Test
     void shouldInsertDailyScheduleItems() {
-        DBConnect dbc = new DBConnect(rb.getString("dsn"));
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
         List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
         scheduleItems.add(new DayScheduleItemBean("Eat food", "01:20"));
         scheduleItems.add(new DayScheduleItemBean("Feed Cat", "02:30"));

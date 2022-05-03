@@ -41,13 +41,8 @@ public class DBApi extends DBConnect {
     }
 
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {
-        ResourceBundle rb = ResourceBundle.getBundle("app");
-        DBApi dbc = new DBApi(rb.getString("dsn"));
-
-        List<DayScheduleItemBean> resultItems = dbc.getEntity("SELECT * FROM day_schedule_items;",
+        return this.getEntity("SELECT * FROM day_schedule_items;",
                 new BeanListHandler<>(DayScheduleItemBean.class));
-
-        return resultItems;
     }
 
 }

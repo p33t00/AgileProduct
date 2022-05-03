@@ -17,8 +17,8 @@ class DBApiTest {
     private final ResourceBundle rb = ResourceBundle.getBundle("app");
 
     @Test
-    void shouldInsertDailyScheduleItems() {
-        DBApi dbc = new DBApi(rb.getString("dsn"));
+    void retrieveDailyScheduleFromDB() {
+        DBApi dbc = new DBApi(rb.getString("dsn-test"));
         List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
         scheduleItems.add(new DayScheduleItemBean("Eat food", "01:20"));
         scheduleItems.add(new DayScheduleItemBean("Feed Cat", "02:30"));
