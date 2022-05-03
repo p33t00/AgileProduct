@@ -20,6 +20,13 @@ public class DayScheduleItemBean implements AgileBean{
         this.state = state;
     }
 
+    public DayScheduleItemBean(Integer id,String activity, String time, byte state) {
+        this.id = id;
+        this.activity = activity;
+        this.time = time;
+        this.state = state;
+    }
+
     public int getId() {
         return id;
     }
