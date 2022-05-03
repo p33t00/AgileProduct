@@ -7,6 +7,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        TimageApplication.main(args);
+    }
+
+    public static void Bmain(String[] args) {
 
         Scanner myScan = new Scanner(System.in);
         Main myMain = new Main();
