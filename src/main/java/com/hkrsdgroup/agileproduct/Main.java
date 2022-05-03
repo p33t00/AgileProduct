@@ -33,8 +33,7 @@ public class Main {
                     System.out.println("What minute to start?");
                     int dayStartMin = myScan.nextInt();
 
-                    int dayStartTime = (dayStartHour * 60) + dayStartMin;
-                    myDay = new DailySchedule(sleepTime, lecture, workout, dayStartTime);
+                    myDay = new DailySchedule(sleepTime, lecture, workout, dayStartHour, dayStartMin);
 
                     break;
                 case 2:

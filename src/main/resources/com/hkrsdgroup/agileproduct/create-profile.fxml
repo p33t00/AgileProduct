@@ -29,5 +29,10 @@
       </Button>
       <Text layoutX="167.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course" />
       <TextField fx:id="courseName" layoutX="301.0" layoutY="264.0" />
+      <Button layoutX="49.0" layoutY="334.0" mnemonicParsing="false" onAction="#onReturnClick" text="Return">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

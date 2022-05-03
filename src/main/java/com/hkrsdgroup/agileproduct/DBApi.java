@@ -3,6 +3,10 @@ package com.hkrsdgroup.agileproduct;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -17,8 +21,23 @@ public class DBApi extends DBConnect {
                 "done TINYINT DEFAULT 0);");
     }
 
-    public void truncateDailySchedule(){
-        updateRawQuery("TRUNCATE TABLE IF EXISTS day_schedule_items;");
+    public void removeDailyScheduleFromDB(){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getDataSource().getConnection();
+            pstmt = conn.prepareStatement("DELETE FROM day_schedule_items;");
+            pstmt.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {

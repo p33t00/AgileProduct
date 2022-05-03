@@ -11,8 +11,6 @@ import java.util.ResourceBundle;
 
 public class TimageApplication extends Application {
 
-
-
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TimageApplication.class.getResource("timage-view.fxml"));

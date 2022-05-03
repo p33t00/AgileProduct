@@ -30,12 +30,12 @@ public class DailySchedule {
         this.endDay = (24*60 + beginDayHour) - sleepAmount;
     }
 
-    public DailySchedule(int sleep,String course ,String workout, int beginDayHour){
+    public DailySchedule(int sleep,String course ,String workout, int hour, int minutes){
         this.sleepAmount = sleep*60;
         this.workout = workout;
-        this.clock = beginDayHour;
-        this.startDay = beginDayHour;
-        this.endDay = (24*60 + beginDayHour) - sleepAmount;
+        this.clock = calculateConstructorTime(hour,minutes);
+        this.startDay = calculateConstructorTime(hour, minutes);
+        this.endDay = (24*60 + calculateConstructorTime(hour, minutes)) - sleepAmount;
         this.assignment1 = course;
     }
 
@@ -144,6 +144,10 @@ public class DailySchedule {
         }
 
         return String.format("%02d:%02d", hour, minutes);
+    }
+
+    public int calculateConstructorTime(int hour, int minutes){
+        return (hour * 60) + minutes;
     }
 
     public void sendDailyScheduleToDB(List<String> schedule){

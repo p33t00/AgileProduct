@@ -60,6 +60,8 @@ public class DBConnect {
         return result;
     }
 
+
+
     public void insertDailyScheduleItems(List<DayScheduleItemBean> scheduleItems) {
         Connection conn = null;
         try {
