@@ -32,11 +32,15 @@ public class TimageController {
 //        alert.show();
 //    }
     @FXML
-    void onDailyScheduleButtonClick(ActionEvent event) {
+    void onDailyScheduleButtonClick(ActionEvent event) throws IOException {
         // this will print the schedule in the terminal(not in GUI)
-        DBApi myConn = new DBApi("dsn");
+        root = FXMLLoader.load(getClass().getResource("Scenebuilder_output.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
-        myConn.retrieveDailyScheduleFromDB();
+//        myConn.retrieveDailyScheduleFromDB();
     }
 
     @FXML
