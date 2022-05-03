@@ -47,9 +47,6 @@ public class TableController implements Initializable {
                 Time.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("time"));
                 Done.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Byte>("done"));
 
-
-                String connectQuery = "SELECT * FROM day_schedule_items";
-
                 try{
 
                         List<DayScheduleItemBean> schedule = dbc.retrieveDailyScheduleFromDB();
