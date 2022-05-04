@@ -33,7 +33,7 @@ public class ProfileController {
     private TextField courseName;
 
     @FXML
-    void onReturnClick(ActionEvent event) throws IOException {
+    void onCancelClick(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("timage-view.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -42,7 +42,7 @@ public class ProfileController {
     }
 
     @FXML
-    void onSubmitClick(ActionEvent event) {
+    void onSubmitClick(ActionEvent event) throws IOException {
        int sleepTime = Integer.parseInt(sleepHour.getText());
        int studyHr = Integer.parseInt(studyHour.getText());
        int studyMin = Integer.parseInt(studyMinute.getText());
@@ -51,5 +51,6 @@ public class ProfileController {
        DailySchedule myDay = new DailySchedule(sleepTime, course, workout, studyHr, studyMin);
 
        myDay.sendDailyScheduleToDB(myDay.ScheduleDayOnlyLongSession());
+       onCancelClick(event);
     }
 }
