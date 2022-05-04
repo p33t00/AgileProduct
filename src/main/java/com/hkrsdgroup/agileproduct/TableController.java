@@ -39,8 +39,7 @@ public class TableController implements Initializable {
         ObservableList<DayScheduleItemBean> l = FXCollections.observableArrayList();
 
         public void initialize(URL location, ResourceBundle resources){
-                ResourceBundle rb = ResourceBundle.getBundle("app");
-                DBApi dbc = new DBApi(rb.getString("dsn"));
+                DBApi dbc = new DBApi();
 
                 Id.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Integer>("id"));
                 Activity.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("activity"));
