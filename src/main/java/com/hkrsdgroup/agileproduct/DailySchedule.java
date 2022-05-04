@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class DailySchedule {
-    private final ResourceBundle rb = ResourceBundle.getBundle("app");
-
     private int sleepAmount;
     private int clock;
     private int startDay;
@@ -151,7 +149,7 @@ public class DailySchedule {
     }
 
     public void sendDailyScheduleToDB(List<String> schedule){
-        DBApi dbc = new DBApi(rb.getString("dsn"));
+        DBApi dbc = new DBApi();
         List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
 
         for(int i = 0; i < schedule.size();i++){

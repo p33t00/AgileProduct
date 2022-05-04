@@ -6,11 +6,12 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class DBApi extends DBConnect {
+    public DBApi() { super(ResourceBundle.getBundle("app").getString("dsn")); }
+
     public DBApi(String dsn) { super(dsn); }
 
     public void initDB() {
@@ -44,5 +45,4 @@ public class DBApi extends DBConnect {
         return this.getEntity("SELECT * FROM day_schedule_items;",
                 new BeanListHandler<>(DayScheduleItemBean.class));
     }
-
 }

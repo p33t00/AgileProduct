@@ -64,9 +64,10 @@ public class DBConnect {
 
     public void insertDailyScheduleItems(List<DayScheduleItemBean> scheduleItems) {
         Connection conn = null;
+        PreparedStatement stmt = null;
         try {
             conn = getDataSource().getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO day_schedule_items (activity, time) VALUES (?,?);");
+            stmt = conn.prepareStatement("INSERT INTO day_schedule_items (activity, time) VALUES (?,?);");
             conn.setAutoCommit(false);
 
             for (DayScheduleItemBean i : scheduleItems) {
@@ -85,6 +86,8 @@ public class DBConnect {
         } finally {
             try {
                 conn.setAutoCommit(true);
+                stmt.close();
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

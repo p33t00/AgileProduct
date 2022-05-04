@@ -60,9 +60,7 @@ public class TimageController {
 
     @FXML
     void onResetScheduleClick(ActionEvent event) {
-        ResourceBundle rb = ResourceBundle.getBundle("app");
-        DBApi myCon = new DBApi(rb.getString("dsn"));
-
+        DBApi myCon = new DBApi();
         myCon.removeDailyScheduleFromDB();
     }
 
