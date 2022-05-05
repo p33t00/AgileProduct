@@ -39,11 +39,11 @@ public class TimageController {
         // TODO
     }
 
-
     @FXML
     void onResetScheduleClick(ActionEvent event) {
         DBApi myCon = new DBApi();
         myCon.removeDailyScheduleFromDB();
+        myCon.resetIdDailyScheduleDB();
     }
 
     @FXML

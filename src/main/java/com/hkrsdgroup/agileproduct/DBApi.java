@@ -41,6 +41,25 @@ public class DBApi extends DBConnect {
         }
     }
 
+    public void resetIdDailyScheduleDB(){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getDataSource().getConnection();
+            pstmt = conn.prepareStatement("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
+            pstmt.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {
         return this.getEntity("SELECT * FROM day_schedule_items;",
                 new BeanListHandler<>(DayScheduleItemBean.class));

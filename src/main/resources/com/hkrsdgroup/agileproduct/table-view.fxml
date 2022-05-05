@@ -18,7 +18,7 @@
             <TableView id="Table" fx:id="Table" layoutX="-5.0" prefHeight="399.0" prefWidth="640.0">
               <columns>
                 <TableColumn fx:id="Id" prefWidth="75.0" text="Id" />
-                <TableColumn fx:id="Activity" prefWidth="75.0" text="Activity" />
+                <TableColumn fx:id="Activity" prefWidth="150.0" text="Activity" />
                   <TableColumn fx:id="Time" prefWidth="75.0" text="Time" />
                   <TableColumn fx:id="State" prefWidth="75.0" text="State" />
               </columns>

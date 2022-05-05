@@ -37,14 +37,6 @@ public class WeeklySchedule {
         return difficultyInDays;
     }
 
-    /*
-    public void sendCoursesToDB(WeeklySchedule course){
-        DBApi dbc = new DBApi(rb.getString("dsn"));
-        dbc.insertWeeklyScheduleItems(course);
-    }
-
-     */
-
     public String getCourseName() {
         return courseName;
     }
