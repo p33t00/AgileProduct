@@ -3,9 +3,6 @@ package com.hkrsdgroup.agileproduct;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -23,41 +20,11 @@ public class DBApi extends DBConnect {
     }
 
     public void removeDailyScheduleFromDB(){
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = getDataSource().getConnection();
-            pstmt = conn.prepareStatement("DELETE FROM day_schedule_items;");
-            pstmt.executeUpdate();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        updateRawQuery("DELETE FROM day_schedule_items;");
     }
 
     public void resetIdDailyScheduleDB(){
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = getDataSource().getConnection();
-            pstmt = conn.prepareStatement("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
-            pstmt.executeUpdate();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
     }
 
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {
