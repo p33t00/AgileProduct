@@ -1,16 +1,18 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class TableController implements Initializable {
@@ -25,31 +27,33 @@ public class TableController implements Initializable {
         private TableColumn<DayScheduleItemBean, String> Time;
 
         @FXML
-        private TableColumn<DayScheduleItemBean, Byte> State;
+        private TableColumn<DayScheduleItemBean, Boolean> State;
 
         @FXML
         private TableView<DayScheduleItemBean> Table;
 
-        ObservableList<DayScheduleItemBean> scheduleItems = FXCollections.observableArrayList();
+        ObservableList<DayScheduleItemBean> scheduleItems = FXCollections.observableArrayList(daily ->
+                new Observable[] {daily.getStateProperty()});
 
-        public void initialize(URL location, ResourceBundle resources){
+        public void initialize(URL location, ResourceBundle resources) {
                 DBApi dbc = new DBApi();
 
                 Id.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Integer>("id"));
                 Activity.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("activity"));
                 Time.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("time"));
-                State.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Byte>("state"));
+                State.setCellValueFactory(cellData -> cellData.getValue().getStateProperty());
+                State.setCellFactory(p -> new CheckBoxTableCell<>());
 
-                try{
-                        List<DayScheduleItemBean> schedule = dbc.retrieveDailyScheduleFromDB();
-                        for (int i = 0; i < schedule.size(); i++) {
-                                DayScheduleItemBean sch = schedule.get(i);
-                                Integer id = sch.getId();
-                                String activity = sch.getActivity();
-                                String time = sch.getTime();
-                                Byte state = sch.getState();
-                                scheduleItems.add(new DayScheduleItemBean(id, activity, time, state));
-                        }
+                try {
+                        scheduleItems.addListener((ListChangeListener<DayScheduleItemBean>) b -> {
+                                while (b.next()) {
+                                        if (b.wasUpdated()) {
+                                                dbc.updateDailyItemState(scheduleItems.get(b.getFrom()).getId(),
+                                                        scheduleItems.get(b.getFrom()).getStateProperty().get());
+                                        }
+                                }
+                        });
+                        scheduleItems.addAll(dbc.retrieveDailyScheduleFromDB());
                         Table.setItems(scheduleItems);
                 } catch (Exception e){
                         e.printStackTrace();

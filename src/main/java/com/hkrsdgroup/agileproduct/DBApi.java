@@ -19,7 +19,7 @@ public class DBApi extends DBConnect {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
                 "activity VARCHAR(45)," +
                 "time VARCHAR(5)," +
-                "done TINYINT DEFAULT 0);");
+                "state BOOLEAN DEFAULT false);");
     }
 
     public void removeDailyScheduleFromDB(){
@@ -63,5 +63,9 @@ public class DBApi extends DBConnect {
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {
         return this.getEntity("SELECT * FROM day_schedule_items;",
                 new BeanListHandler<>(DayScheduleItemBean.class));
+    }
+
+    public void updateDailyItemState(int id, boolean state) {
+        updateRawQuery(String.format("UPDATE day_schedule_items SET state = %b WHERE id = %d;", state, id));
     }
 }
