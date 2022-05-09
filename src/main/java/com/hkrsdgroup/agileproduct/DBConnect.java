@@ -6,6 +6,9 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.*;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -71,6 +74,41 @@ public class DBConnect {
             for (DayScheduleItemBean i : scheduleItems) {
                 stmt.setString(1, i.getActivity());
                 stmt.setString(2, i.getTime());
+                stmt.addBatch();
+            }
+
+            stmt.executeBatch();
+            conn.commit();
+        } catch (BatchUpdateException b) {
+            System.err.println("Butch insert error.");
+            b.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void insertWeeklyScheduleItems(ArrayList<ArrayList> courseSchedule) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        Format formatter = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            conn = getDataSource().getConnection();
+            stmt = conn.prepareStatement("INSERT INTO course_schedule_tasks (dayCount, date, course, assignment) VALUES (?,?,?,?);");
+            conn.setAutoCommit(false);
+
+
+            for (ArrayList arrayList : courseSchedule) {
+                stmt.setString(1, arrayList.get(0).toString());
+                stmt.setString(2, arrayList.get(1).toString());
+                stmt.setString(3, arrayList.get(2).toString());
+                stmt.setString(4, arrayList.get(3).toString());
                 stmt.addBatch();
             }
 

@@ -19,6 +19,24 @@ public class DBApi extends DBConnect {
                 "state BOOLEAN DEFAULT false);");
     }
 
+    public void initDBWeeklyOneTask(){
+        updateRawQuery("CREATE TABLE IF NOT EXISTS course_schedule_tasks (" +
+                "dayID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "dayCount VARCHAR(5)," +
+                "date VARCHAR(15)," +
+                "course VARCHAR(45)," +
+                "assignment VARCHAR(45)," +
+                "doneOrNot BOOLEAN DEFAULT false);");
+    }
+
+    public void removeWeeklyScheduleFromDB(){
+        updateRawQuery("DELETE FROM course_schedule_tasks;");
+    }
+
+    public void resetIdWeeklyScheduleDB(){
+        updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='course_schedule_tasks';");
+    }
+
     public void removeDailyScheduleFromDB(){
         updateRawQuery("DELETE FROM day_schedule_items;");
     }

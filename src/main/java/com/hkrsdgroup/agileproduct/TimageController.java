@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TimageController {
     @FXML
@@ -37,6 +38,26 @@ public class TimageController {
     @FXML
     void onFillWeeklyButtonClick(ActionEvent event) {
         // TODO
+        DBApi myCon = new DBApi();
+        myCon.initDBWeeklyOneTask();
+
+        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
+        ArrayList<ArrayList> completeWeek = new ArrayList<>();
+
+        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
+        myCourse.sortAddOnEndDate(myWeek, myCourse);
+        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "assignment connect");
+        myCourse.sortAddOnEndDate(myWeek, myCourse2);
+        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
+        myCourse.sortAddOnEndDate(myWeek, myCourse3);
+        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 210532, "implement functions");
+        myCourse.sortAddOnEndDate(myWeek, myCourse4);
+
+        completeWeek = myCourse.createWeeklyOneTask(myWeek);
+        myCon.insertWeeklyScheduleItems(completeWeek);
+
+
+
     }
 
     @FXML
@@ -44,6 +65,8 @@ public class TimageController {
         DBApi myCon = new DBApi();
         myCon.removeDailyScheduleFromDB();
         myCon.resetIdDailyScheduleDB();
+        myCon.removeWeeklyScheduleFromDB();
+        myCon.resetIdWeeklyScheduleDB();
     }
 
     @FXML
