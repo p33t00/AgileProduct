@@ -5,18 +5,27 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TableController implements Initializable {
-
+        private Stage stage;
+        private Scene scene;
+        private Parent root;
         @FXML
         private TableColumn<DayScheduleItemBean, Integer> Id;
 
@@ -31,6 +40,16 @@ public class TableController implements Initializable {
 
         @FXML
         private TableView<DayScheduleItemBean> Table;
+
+        @FXML
+        void onBackClick(ActionEvent event) throws IOException {
+                root = FXMLLoader.load(getClass().getResource("timage-view.fxml"));
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+        }
+
 
         ObservableList<DayScheduleItemBean> scheduleItems = FXCollections.observableArrayList(daily ->
                 new Observable[] {daily.getStateProperty()});

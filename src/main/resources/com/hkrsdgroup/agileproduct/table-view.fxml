@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -16,7 +17,7 @@
             <Font size="18.0" />
           </font>
         </Label>
-            <TableView id="Table" fx:id="Table" editable="true" layoutX="-5.0" prefHeight="399.0" prefWidth="640.0">
+            <TableView id="Table" fx:id="Table" editable="true" layoutX="1.0" prefHeight="369.0" prefWidth="634.0">
               <columns>
                 <TableColumn fx:id="Id" editable="false" prefWidth="75.0" text="Id" />
                 <TableColumn fx:id="Activity" editable="false" prefWidth="150.0" text="Activity" />
@@ -24,6 +25,7 @@
                 <TableColumn fx:id="State" prefWidth="75.0" sortable="false" text="State" />
               </columns>
             </TableView>
+            <Button layoutX="14.0" layoutY="369.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="25.0" prefWidth="69.0" text="Back" />
       </children>
     </AnchorPane>
   </children>
