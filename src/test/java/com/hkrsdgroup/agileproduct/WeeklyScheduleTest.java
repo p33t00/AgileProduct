@@ -126,6 +126,10 @@ public class WeeklyScheduleTest {
         String todayDate = myCourse.todayDate();
         String shouldBeDate = myCourse.incrementDateOneDay(todayDate).toString();
 
+        for(int i = 0;i < completeWeek.size();i++){
+            System.out.println(completeWeek.get(i));
+        }
+
         assertEquals(completeWeek.get(0).get(2),"assignment connect");
         assertEquals(completeWeek.get(0).get(5), "agile");
         assertEquals(completeWeek.get(0).get(1),shouldBeDate);

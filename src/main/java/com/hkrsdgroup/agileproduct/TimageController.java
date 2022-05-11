@@ -70,7 +70,11 @@ public class TimageController {
     }
 
     @FXML
-    void onWeeklyScheduleButtonClick(ActionEvent event) {
-        // TODO
+    void onWeeklyScheduleButtonClick(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("WeeklyTableView.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
