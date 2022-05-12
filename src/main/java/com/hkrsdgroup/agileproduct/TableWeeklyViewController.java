@@ -1,5 +1,9 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.WeeklyScheduleBean;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,26 +27,36 @@ public class TableWeeklyViewController implements Initializable {
     private Parent root;
 
     @FXML
-    private TableColumn<WeeklySchedule, String> assignment;
+    private TableColumn<WeeklyScheduleBean, String> assignment;
 
     @FXML
-    private TableColumn<WeeklySchedule, String> course;
+    private TableColumn<WeeklyScheduleBean, String> course;
 
     @FXML
-    private TableColumn<WeeklySchedule, String> date;
+    private TableColumn<WeeklyScheduleBean, String> date;
 
     @FXML
-    private TableColumn<WeeklySchedule, String> day;
+    private TableColumn<WeeklyScheduleBean, String> difficulty;
 
     @FXML
-    private TableView<WeeklySchedule> weeklyTable;
+    private TableView<WeeklyScheduleBean> weeklyTable;
+
+
+    ObservableList<WeeklyScheduleBean> scheduleItems = FXCollections.observableArrayList(weekly ->
+            new Observable[] {weekly.getStateProperty()});
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        day.setCellValueFactory(new PropertyValueFactory<WeeklySchedule, String>("Day"));
-        date.setCellValueFactory(new PropertyValueFactory<WeeklySchedule, String>("Date"));
-        course.setCellValueFactory(new PropertyValueFactory<WeeklySchedule, String>("Course"));
-        assignment.setCellValueFactory(new PropertyValueFactory<WeeklySchedule, String>("Assignment"));
+        DBApi dbc = new DBApi();
+
+        date.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Date"));
+        course.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Course"));
+        assignment.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Assignment"));
+        difficulty.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Difficulty"));
+
+        scheduleItems.addAll(dbc.retrieveWeeklyScheduleFromDB());
+        weeklyTable.setItems(scheduleItems);
     }
 
     @FXML

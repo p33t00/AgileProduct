@@ -55,9 +55,6 @@ public class TimageController {
 
         completeWeek = myCourse.createWeeklyOneTask(myWeek);
         myCon.insertWeeklyScheduleItems(completeWeek);
-
-
-
     }
 
     @FXML

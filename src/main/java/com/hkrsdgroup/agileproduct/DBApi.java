@@ -1,8 +1,10 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import com.hkrsdgroup.agileproduct.beans.WeeklyScheduleBean;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -26,6 +28,7 @@ public class DBApi extends DBConnect {
                 "date VARCHAR(15)," +
                 "course VARCHAR(45)," +
                 "assignment VARCHAR(45)," +
+                "difficulty VARCHAR(45)," +
                 "doneOrNot BOOLEAN DEFAULT false);");
     }
 
@@ -48,6 +51,11 @@ public class DBApi extends DBConnect {
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {
         return this.getEntity("SELECT * FROM day_schedule_items;",
                 new BeanListHandler<>(DayScheduleItemBean.class));
+    }
+
+    public List<WeeklyScheduleBean> retrieveWeeklyScheduleFromDB() {
+        return this.getEntity("SELECT * FROM course_schedule_tasks;",
+                new BeanListHandler<>(WeeklyScheduleBean.class));
     }
 
     public void updateDailyItemState(int id, boolean state) {

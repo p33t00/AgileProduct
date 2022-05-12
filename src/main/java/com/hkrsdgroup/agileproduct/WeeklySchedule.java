@@ -80,6 +80,7 @@ public class WeeklySchedule {
                 oneDay.add(nextDate);
                 oneDay.add(listOfCourses.get(innerLoop).CourseToString());
                 oneDay.add(listOfCourses.get(innerLoop).getAssignment());
+                oneDay.add(listOfCourses.get(innerLoop).getDifficultyName());
                 completeScheduleOneTask.add(oneDay);
                 nextDate = incrementDateOneDay(nextDate);
                 day++;
