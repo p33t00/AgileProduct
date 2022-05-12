@@ -77,13 +77,13 @@ public class WeeklyScheduleTest {
         ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
         String test = null;
 
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
+        WeeklySchedule myCourse = new WeeklySchedule("agile", "Hard", 220321, "learn jira");
         myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "assignment connect");
+        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "Medium", 240321, "assignment connect");
         myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
+        WeeklySchedule myCourse3 = new WeeklySchedule("python", "Easy", 210532, "make clean code");
         myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 210532, "implement functions");
+        WeeklySchedule myCourse4 = new WeeklySchedule("python", "Easy", 210532, "implement functions");
         myCourse.sortAddOnEndDate(myWeek, myCourse4);
 
         test = myCourse.retrieveSecondCourseForDay(myWeek);
@@ -95,13 +95,13 @@ public class WeeklyScheduleTest {
         ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
         String test = null;
 
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
+        WeeklySchedule myCourse = new WeeklySchedule("agile", "Hard", 220321, "learn jira");
         myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "assignment connect");
+        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "Medium", 240321, "assignment connect");
         myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
+        WeeklySchedule myCourse3 = new WeeklySchedule("python", "Easy", 210532, "make clean code");
         myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 210532, "implement functions");
+        WeeklySchedule myCourse4 = new WeeklySchedule("python", "Easy", 210532, "implement functions");
         myCourse.sortAddOnEndDate(myWeek, myCourse4);
 
         test = myCourse.retrieveSecondTaskForDay(myWeek);
@@ -113,13 +113,13 @@ public class WeeklyScheduleTest {
         ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
         ArrayList<ArrayList> completeWeek = new ArrayList<>();
 
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
+        WeeklySchedule myCourse = new WeeklySchedule("agile", "Hard", 220321, "learn jira");
         myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 210321, "assignment connect");
+        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "Medium", 210321, "assignment connect");
         myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
+        WeeklySchedule myCourse3 = new WeeklySchedule("python", "Easy", 210532, "make clean code");
         myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 230532, "implement functions");
+        WeeklySchedule myCourse4 = new WeeklySchedule("python", "Easy", 230532, "implement functions");
         myCourse.sortAddOnEndDate(myWeek, myCourse4);
 
         completeWeek = myCourse.createWeeklyTwoTasks(myWeek);

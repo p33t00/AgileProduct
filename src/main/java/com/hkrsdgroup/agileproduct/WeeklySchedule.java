@@ -14,6 +14,7 @@ public class WeeklySchedule {
     private int difficultyNumber;
     private int endDate;
     private String difficultyName;
+    private ArrayList<WeeklySchedule> myWeekList = new ArrayList<>();
 
     public WeeklySchedule(String courseName, String difficulty, int endDate, String assignment){
         this.courseName = courseName;
@@ -32,11 +33,11 @@ public class WeeklySchedule {
     public int AssignNumberToDifficulty(String difficulty){
         int difficultyInDays = 0;
 
-        if(Objects.equals(difficulty, "hard")){
+        if(Objects.equals(difficulty, "Hard")){
             difficultyInDays = 3;
-        }else if(Objects.equals(difficulty, "medium")){
+        }else if(Objects.equals(difficulty, "Medium")){
             difficultyInDays = 2;
-        }else if(Objects.equals(difficulty, "easy")){
+        }else if(Objects.equals(difficulty, "Easy")){
             difficultyInDays = 1;
         }
         return difficultyInDays;
@@ -123,14 +124,14 @@ public class WeeklySchedule {
 
         for (WeeklySchedule listOfCourse : listOfCourses) {
             if (listOfCourse.difficultyNumber > 0 &&
-                    Objects.equals(listOfCourse.difficultyName, "hard")) {
+                    Objects.equals(listOfCourse.difficultyName, "Hard")) {
                 secondCourse = listOfCourse.CourseToString();
             }
         }
         if (secondCourse == null){
             for(int i = 0; i < listOfCourses.size();i++){
                 if( listOfCourses.get(i).difficultyNumber > 0 &&
-                        Objects.equals(listOfCourses.get(i).difficultyName, "medium")){
+                        Objects.equals(listOfCourses.get(i).difficultyName, "Medium")){
                     secondCourse = listOfCourses.get(i).CourseToString();
                 }
             }
@@ -138,7 +139,7 @@ public class WeeklySchedule {
         if (secondCourse == null){
             for(int i = 0; i < listOfCourses.size();i++){
                 if( listOfCourses.get(i).difficultyNumber > 0 &&
-                        Objects.equals(listOfCourses.get(i).difficultyName, "easy")){
+                        Objects.equals(listOfCourses.get(i).difficultyName, "Easy")){
                     secondCourse = listOfCourses.get(i).CourseToString();
                 }
             }
@@ -152,14 +153,14 @@ public class WeeklySchedule {
         String secondCourse = null;
         for (int i = 0; i < listOfCourses.size(); i++) {
             if (listOfCourses.get(i).difficultyNumber > 0 &&
-                    Objects.equals(listOfCourses.get(i).difficultyName, "hard")) {
+                    Objects.equals(listOfCourses.get(i).difficultyName, "Hard")) {
                 secondCourse = listOfCourses.get(i).getAssignment();
             }
         }
             if (secondCourse == null) {
                 for (int i = 0; i < listOfCourses.size(); i++) {
                     if (listOfCourses.get(i).difficultyNumber > 0 &&
-                            Objects.equals(listOfCourses.get(i).difficultyName, "medium")) {
+                            Objects.equals(listOfCourses.get(i).difficultyName, "Medium")) {
                         secondCourse = listOfCourses.get(i).getAssignment();
                     }
                 }
@@ -167,7 +168,7 @@ public class WeeklySchedule {
             if (secondCourse == null) {
                 for (int i = 0; i < listOfCourses.size(); i++) {
                     if (listOfCourses.get(i).difficultyNumber > 0 &&
-                            Objects.equals(listOfCourses.get(i).difficultyName, "easy")) {
+                            Objects.equals(listOfCourses.get(i).difficultyName, "Easy")) {
                         secondCourse = listOfCourses.get(i).getAssignment();
                     }
                 }
@@ -215,6 +216,14 @@ public class WeeklySchedule {
 
     public String getDifficultyName() {
         return difficultyName;
+    }
+
+    public ArrayList<WeeklySchedule> getMyWeekList() {
+        return myWeekList;
+    }
+
+    public void setMyWeekList(ArrayList<WeeklySchedule> myWeekList) {
+        this.myWeekList = myWeekList;
     }
 
     @Override

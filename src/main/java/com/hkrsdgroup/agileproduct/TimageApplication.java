@@ -26,6 +26,7 @@ public class TimageApplication extends Application {
         ResourceBundle rb = ResourceBundle.getBundle("app");
         DBApi myConnection = new DBApi(rb.getString("dsn"));
         myConnection.initDB();
+        myConnection.initDBWeeklyOneTask();
         launch();
     }
 }
