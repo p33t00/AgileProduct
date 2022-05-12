@@ -36,26 +36,31 @@ public class TimageController {
     }
 
     @FXML
-    void onFillWeeklyButtonClick(ActionEvent event) {
-        // TODO
-        DBApi myCon = new DBApi();
-        myCon.initDBWeeklyOneTask();
+    void onFillWeeklyButtonClick(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("fill-weekly.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
-        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
-        ArrayList<ArrayList> completeWeek = new ArrayList<>();
-
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
-        myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "assignment connect");
-        myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
-        myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 210532, "implement functions");
-        myCourse.sortAddOnEndDate(myWeek, myCourse4);
-
-        completeWeek = myCourse.createWeeklyOneTask(myWeek);
-        myCon.insertWeeklyScheduleItems(completeWeek);
-
+//        // TODO
+//        DBApi myCon = new DBApi();
+//        myCon.initDBWeeklyOneTask();
+//
+//        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
+//        ArrayList<ArrayList> completeWeek = new ArrayList<>();
+//
+//        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
+//        myCourse.sortAddOnEndDate(myWeek, myCourse);
+//        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "assignment connect");
+//        myCourse.sortAddOnEndDate(myWeek, myCourse2);
+//        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
+//        myCourse.sortAddOnEndDate(myWeek, myCourse3);
+//        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 210532, "implement functions");
+//        myCourse.sortAddOnEndDate(myWeek, myCourse4);
+//
+//        completeWeek = myCourse.createWeeklyOneTask(myWeek);
+//        myCon.insertWeeklyScheduleItems(completeWeek);
 
 
     }
