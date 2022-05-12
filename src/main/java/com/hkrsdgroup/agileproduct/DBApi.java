@@ -1,6 +1,7 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.util.List;
@@ -29,6 +30,15 @@ public class DBApi extends DBConnect {
                 "doneOrNot BOOLEAN DEFAULT false);");
     }
 
+    public void initDBCourseTask(){
+        updateRawQuery("CREATE TABLE IF NOT EXISTS course_tasks (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "course VARCHAR(45)," +
+                "task VARCHAR(45)," +
+                "difficulty VARCHAR(45)," +
+                "deadline INTEGER);");
+    }
+
     public void removeWeeklyScheduleFromDB(){
         updateRawQuery("DELETE FROM course_schedule_tasks;");
     }
@@ -48,6 +58,11 @@ public class DBApi extends DBConnect {
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {
         return this.getEntity("SELECT * FROM day_schedule_items;",
                 new BeanListHandler<>(DayScheduleItemBean.class));
+    }
+
+    public List<TaskBean> retrieveCourseTaskFromDB() {
+        return this.getEntity("SELECT * FROM course_tasks;",
+                new BeanListHandler<>(TaskBean.class));
     }
 
     public void updateDailyItemState(int id, boolean state) {

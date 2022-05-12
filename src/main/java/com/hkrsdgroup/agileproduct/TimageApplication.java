@@ -27,6 +27,7 @@ public class TimageApplication extends Application {
         DBApi myConnection = new DBApi(rb.getString("dsn"));
         myConnection.initDB();
         myConnection.initDBWeeklyOneTask();
+        myConnection.initDBCourseTask();
         launch();
     }
 }

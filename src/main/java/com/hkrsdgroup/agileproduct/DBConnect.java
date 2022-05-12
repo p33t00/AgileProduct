@@ -1,6 +1,7 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.sqlite.SQLiteDataSource;
@@ -117,6 +118,32 @@ public class DBConnect {
         } catch (BatchUpdateException b) {
             System.err.println("Butch insert error.");
             b.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void insertTaskItems(TaskBean task) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = getDataSource().getConnection();
+            stmt = conn.prepareStatement("INSERT INTO course_tasks (course, task, difficulty, deadline) VALUES (?,?,?,?);");
+            conn.setAutoCommit(false);
+
+            stmt.setString(1, task.getCourse_name());
+            stmt.setString(2, task.getTask_name());
+            stmt.setString(3, task.getDifficulty());
+            stmt.setInt(4, task.getDeadline());
+            stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
