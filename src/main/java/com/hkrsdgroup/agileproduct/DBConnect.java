@@ -3,7 +3,6 @@ package com.hkrsdgroup.agileproduct;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.ResultSetHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.*;
@@ -11,7 +10,6 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.commons.dbutils.QueryRunner;
 
@@ -138,8 +136,8 @@ public class DBConnect {
             stmt = conn.prepareStatement("INSERT INTO course_tasks (course, task, difficulty, deadline) VALUES (?,?,?,?);");
             conn.setAutoCommit(false);
 
-            stmt.setString(1, task.getCourse_name());
-            stmt.setString(2, task.getTask_name());
+            stmt.setString(1, task.getCourse());
+            stmt.setString(2, task.getTask());
             stmt.setString(3, task.getDifficulty());
             stmt.setInt(4, task.getDeadline());
             stmt.executeUpdate();

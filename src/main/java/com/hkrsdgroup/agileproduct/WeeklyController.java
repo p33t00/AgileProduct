@@ -1,7 +1,6 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -49,24 +47,20 @@ public class WeeklyController implements Initializable {
     @FXML
     void onSubmitClick(ActionEvent event) throws IOException {
         DBApi myCon = new DBApi();
-//        myCon.initDBWeeklyOneTask();
+        myCon.removeWeeklyScheduleFromDB();
 
         String course = course_name.getText();
         String task = task_name.getText();
         String level = difficulty.getValue();
         int endDate = Integer.parseInt(deadline.getText());
 
-        // 0. Table course_schedule_tasks should be truncated.
-        // 1. Create course_tasks table with data above (NOT in this method)
-        // 2. Store data above in course_tasks table (create a method to store this data)
-
         myCon.insertTaskItems(new TaskBean(course, level, endDate, task));
 
         List<TaskBean> task_list = myCon.retrieveCourseTaskFromDB();
-        WeeklySchedule weeklyData = new WeeklySchedule("Agile", "Hard", 220610, "learn");
+        WeeklySchedule weeklyData = new WeeklySchedule();
 
         for (TaskBean t: task_list) {
-            WeeklySchedule myCourse = new WeeklySchedule(t.getCourse_name(), t.getDifficulty(), t.getDeadline(), t.getTask_name());
+            WeeklySchedule myCourse = new WeeklySchedule(t.getCourse(), t.getDifficulty(), t.getDeadline(), t.getTask());
             weeklyData.sortAddOnEndDate(weeklyData.getMyWeekList(), myCourse);
         }
 
