@@ -1,6 +1,7 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import com.hkrsdgroup.agileproduct.beans.TestBean;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -129,6 +130,43 @@ public class DBConnectTest {
         dropDayScheduleItemsTable(dbc);
     }
 
+    @Test
+    void retrieveCourseTaskFromDB() {
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
+        dropCourseTaskTable(dbc);
+
+        TaskBean task = new TaskBean("Agile", "Medium", 220625, "Project1");
+        TaskBean task1 = new TaskBean("Mathematics", "Hard", 2201009, "Examination 1");
+
+        initDBCourseTask(dbc);
+        dbc.insertTaskItems(task);
+        dbc.insertTaskItems(task1);
+
+        List<TaskBean> resultItems = dbc.getEntity("SELECT * FROM course_tasks;",
+                new BeanListHandler<>(TaskBean.class));
+
+        assertEquals(2, resultItems.size());
+
+        assertEquals(task.getCourse(), resultItems.get(0).getCourse());
+        assertEquals(task.getDeadline(), resultItems.get(0).getDeadline());
+        assertEquals(task.getDifficulty(), resultItems.get(0).getDifficulty());
+        assertEquals(task.getTask(), resultItems.get(0).getTask());
+
+        assertEquals(task1.getCourse(), resultItems.get(1).getCourse());
+        assertEquals(task1.getDeadline(), resultItems.get(1).getDeadline());
+        assertEquals(task1.getDifficulty(), resultItems.get(1).getDifficulty());
+        assertEquals(task1.getTask(), resultItems.get(1).getTask());
+    }
+
+    private void initDBCourseTask(DBConnect dbc) {
+        dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS course_tasks (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "course VARCHAR(45)," +
+                "task VARCHAR(45)," +
+                "difficulty VARCHAR(45)," +
+                "deadline INTEGER);");
+    }
+
     private void createDayScheduleItemsTable(DBConnect dbc) {
         dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS day_schedule_items (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
@@ -149,4 +187,8 @@ public class DBConnectTest {
     }
 
     private void dropDayScheduleItemsTable(DBConnect dbc) { dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;"); }
+
+    private void dropCourseTaskTable(DBConnect dbc) {
+        dbc.updateRawQuery("DROP TABLE IF EXISTS course_tasks;");
+    }
 }
