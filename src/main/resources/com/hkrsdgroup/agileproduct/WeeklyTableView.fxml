@@ -9,9 +9,9 @@
    <children>
       <TableView fx:id="weeklyTable" prefHeight="300.0" prefWidth="600.0">
         <columns>
-          <TableColumn fx:id="date" prefWidth="75.0" text="Date" />
+          <TableColumn fx:id="taskDate" prefWidth="75.0" text="Date" />
             <TableColumn fx:id="course" prefWidth="75.0" text="Course" />
-            <TableColumn fx:id="assignment" prefWidth="75.0" text="Assignment" />
+            <TableColumn fx:id="task" prefWidth="75.0" text="Task" />
           <TableColumn fx:id="difficulty" prefWidth="75.0" text="Difficulty" />
         </columns>
       </TableView>

@@ -79,7 +79,7 @@ public class WeeklySchedule {
         while ( innerLoop < listOfCourses.size()){
             while(listOfCourses.get(innerLoop).difficultyNumber >= 1){
                 ArrayList<String> oneDay = new ArrayList<>();
-                oneDay.add("day" + day);
+                //oneDay.add("day" + day);
                 oneDay.add(nextDate);
                 oneDay.add(listOfCourses.get(innerLoop).CourseToString());
                 oneDay.add(listOfCourses.get(innerLoop).getAssignment());
@@ -93,6 +93,7 @@ public class WeeklySchedule {
         return completeScheduleOneTask;
     }
 
+    /*
     //feature 2
     public ArrayList<ArrayList> createWeeklyTwoTasks(ArrayList<WeeklySchedule> listOfCourses){
 
@@ -183,6 +184,8 @@ public class WeeklySchedule {
             listOfCourses.get(i).difficultyNumber = listOfCourses.get(i).difficultyNumber * 2;
         }
     }
+
+     */
 
 
 

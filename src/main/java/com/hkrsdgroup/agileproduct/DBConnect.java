@@ -99,7 +99,7 @@ public class DBConnect {
         Format formatter = new SimpleDateFormat("yyyy/MM/dd");
         try {
             conn = getDataSource().getConnection();
-            stmt = conn.prepareStatement("INSERT INTO course_schedule_tasks (dayCount, date, course, assignment, difficulty) VALUES (?,?,?,?,?);");
+            stmt = conn.prepareStatement("INSERT INTO course_schedule_tasks (taskDate, course, task, difficulty) VALUES (?,?,?,?);");
             conn.setAutoCommit(false);
 
 
@@ -108,7 +108,6 @@ public class DBConnect {
                 stmt.setString(2, arrayList.get(1).toString());
                 stmt.setString(3, arrayList.get(2).toString());
                 stmt.setString(4, arrayList.get(3).toString());
-                stmt.setString(5, arrayList.get(4).toString());
                 stmt.addBatch();
             }
 

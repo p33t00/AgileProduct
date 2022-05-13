@@ -1,5 +1,6 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
@@ -25,13 +26,11 @@ public class DBApi extends DBConnect {
 
     public void initDBWeeklyOneTask(){
         updateRawQuery("CREATE TABLE IF NOT EXISTS course_schedule_tasks (" +
-                "dayID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                "dayCount VARCHAR(5)," +
-                "date VARCHAR(15)," +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "taskDate VARCHAR(45)," +
                 "course VARCHAR(45)," +
-                "assignment VARCHAR(45)," +
-                "difficulty VARCHAR(45)," +
-                "doneOrNot BOOLEAN DEFAULT false);");
+                "task VARCHAR(45)," +
+                "difficulty VARCHAR(45));");
     }
 
     public void initDBCourseTask(){
@@ -67,6 +66,11 @@ public class DBApi extends DBConnect {
     public List<TaskBean> retrieveCourseTaskFromDB() {
         return this.getEntity("SELECT * FROM course_tasks;",
                 new BeanListHandler<>(TaskBean.class));
+    }
+
+    public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskFromDB() {
+        return this.getEntity("SELECT * FROM course_schedule_tasks;",
+                new BeanListHandler<>(CourseScheduleTaskBean.class));
     }
 
     public void updateDailyItemState(int id, boolean state) {
