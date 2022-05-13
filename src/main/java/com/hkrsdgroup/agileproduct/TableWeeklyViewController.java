@@ -1,6 +1,6 @@
 package com.hkrsdgroup.agileproduct;
 
-import com.hkrsdgroup.agileproduct.beans.WeeklyScheduleBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,36 +27,41 @@ public class TableWeeklyViewController implements Initializable {
     private Parent root;
 
     @FXML
-    private TableColumn<WeeklyScheduleBean, String> assignment;
+    private TableColumn<TaskBean, String> assignment;
 
     @FXML
-    private TableColumn<WeeklyScheduleBean, String> course;
+    private TableColumn<TaskBean, String> course;
 
     @FXML
-    private TableColumn<WeeklyScheduleBean, String> date;
+    private TableColumn<TaskBean, String> date;
 
     @FXML
-    private TableColumn<WeeklyScheduleBean, String> difficulty;
+    private TableColumn<TaskBean, String> difficulty;
 
     @FXML
-    private TableView<WeeklyScheduleBean> weeklyTable;
+    private TableView<TaskBean> weeklyTable;
 
-
-    ObservableList<WeeklyScheduleBean> scheduleItems = FXCollections.observableArrayList(weekly ->
+    /*
+    ObservableList<TaskBean> scheduleItems = FXCollections.observableArrayList(weekly ->
             new Observable[] {weekly.getStateProperty()});
+
+     */
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         DBApi dbc = new DBApi();
 
-        date.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Date"));
-        course.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Course"));
-        assignment.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Assignment"));
-        difficulty.setCellValueFactory(new PropertyValueFactory<WeeklyScheduleBean, String>("Difficulty"));
+        /*
+        date.setCellValueFactory(new PropertyValueFactory<TaskBean, String>("Date"));
+        course.setCellValueFactory(new PropertyValueFactory<TaskBean, String>("Course"));
+        assignment.setCellValueFactory(new PropertyValueFactory<TaskBean, String>("Assignment"));
+        difficulty.setCellValueFactory(new PropertyValueFactory<TaskBean, String>("Difficulty"));
 
         scheduleItems.addAll(dbc.retrieveWeeklyScheduleFromDB());
         weeklyTable.setItems(scheduleItems);
+
+         */
     }
 
     @FXML

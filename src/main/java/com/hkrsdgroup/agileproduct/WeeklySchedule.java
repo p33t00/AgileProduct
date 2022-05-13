@@ -16,6 +16,8 @@ public class WeeklySchedule {
     private String difficultyName;
     private ArrayList<WeeklySchedule> myWeekList = new ArrayList<>();
 
+    public WeeklySchedule(){}
+
     public WeeklySchedule(String courseName, String difficulty, int endDate, String assignment){
         this.courseName = courseName;
         this.difficultyNumber = AssignNumberToDifficulty(difficulty);
