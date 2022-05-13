@@ -1,11 +1,10 @@
 module com.hkrsdgroup.agileproduct {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
 
     requires com.dlsc.formsfx;
+    requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires commons.dbutils;

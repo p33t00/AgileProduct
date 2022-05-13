@@ -1,16 +1,15 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class DBApi extends DBConnect {
+    public DBApi() { super(ResourceBundle.getBundle("app").getString("dsn")); }
+
     public DBApi(String dsn) { super(dsn); }
 
     public void initDB() {
@@ -18,26 +17,42 @@ public class DBApi extends DBConnect {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
                 "activity VARCHAR(45)," +
                 "time VARCHAR(5)," +
-                "done TINYINT DEFAULT 0);");
+                "state BOOLEAN DEFAULT false);");
+    }
+
+    public void initDBWeeklyOneTask(){
+        updateRawQuery("CREATE TABLE IF NOT EXISTS course_schedule_tasks (" +
+                "dayID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "dayCount VARCHAR(5)," +
+                "date VARCHAR(15)," +
+                "course VARCHAR(45)," +
+                "assignment VARCHAR(45)," +
+                "doneOrNot BOOLEAN DEFAULT false);");
+    }
+
+    public void initDBCourseTask(){
+        updateRawQuery("CREATE TABLE IF NOT EXISTS course_tasks (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "course VARCHAR(45)," +
+                "task VARCHAR(45)," +
+                "difficulty VARCHAR(45)," +
+                "deadline INTEGER);");
+    }
+
+    public void removeWeeklyScheduleFromDB(){
+        updateRawQuery("DELETE FROM course_schedule_tasks;");
+    }
+
+    public void resetIdWeeklyScheduleDB(){
+        updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='course_schedule_tasks';");
     }
 
     public void removeDailyScheduleFromDB(){
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = getDataSource().getConnection();
-            pstmt = conn.prepareStatement("DELETE FROM day_schedule_items;");
-            pstmt.executeUpdate();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        updateRawQuery("DELETE FROM day_schedule_items;");
+    }
+
+    public void resetIdDailyScheduleDB(){
+        updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
     }
 
     public List<DayScheduleItemBean> retrieveDailyScheduleFromDB() {
@@ -45,4 +60,12 @@ public class DBApi extends DBConnect {
                 new BeanListHandler<>(DayScheduleItemBean.class));
     }
 
+    public List<TaskBean> retrieveCourseTaskFromDB() {
+        return this.getEntity("SELECT * FROM course_tasks;",
+                new BeanListHandler<>(TaskBean.class));
+    }
+
+    public void updateDailyItemState(int id, boolean state) {
+        updateRawQuery(String.format("UPDATE day_schedule_items SET state = %b WHERE id = %d;", state, id));
+    }
 }

@@ -7,6 +7,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        TimageApplication.main(args);
+    }
+
+    public static void Bmain(String[] args) {
 
         Scanner myScan = new Scanner(System.in);
         Main myMain = new Main();
@@ -62,7 +66,7 @@ public class Main {
                             mySchedule = myDay.ScheduleDayOnlyShortSession();
                             break;
                         case 2:
-                           mySchedule = myDay.ScheduleDayMixedSession();
+                          // mySchedule = myDay.ScheduleDayMixedSession();
                             break;
                         case 3:
                            mySchedule = myDay.ScheduleDayOnlyLongSession();

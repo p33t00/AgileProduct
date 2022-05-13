@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hkrsdgroup.agileproduct.TableWeeklyViewController">
+   <children>
+      <TableView fx:id="weeklyTable" prefHeight="300.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="day" prefWidth="75.0" text="Day" />
+          <TableColumn fx:id="date" prefWidth="75.0" text="Date" />
+            <TableColumn fx:id="course" prefWidth="75.0" text="Course" />
+            <TableColumn fx:id="assignment" prefWidth="75.0" text="Assignment" />
+        </columns>
+      </TableView>
+      <Button layoutX="274.0" layoutY="328.0" mnemonicParsing="false" onAction="#OnReturnClick" text="Return" />
+   </children>
+</AnchorPane>

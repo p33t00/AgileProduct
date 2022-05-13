@@ -1,24 +1,31 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.sql.Statement;
-import java.sql.ResultSet;
 
 public class TableController implements Initializable {
-
+        private Stage stage;
+        private Scene scene;
+        private Parent root;
         @FXML
         private TableColumn<DayScheduleItemBean, Integer> Id;
 
@@ -29,48 +36,46 @@ public class TableController implements Initializable {
         private TableColumn<DayScheduleItemBean, String> Time;
 
         @FXML
-        private TableColumn<DayScheduleItemBean, Byte> Done;
+        private TableColumn<DayScheduleItemBean, Boolean> State;
 
         @FXML
         private TableView<DayScheduleItemBean> Table;
 
+        @FXML
+        void onBackClick(ActionEvent event) throws IOException {
+                root = FXMLLoader.load(getClass().getResource("timage-view.fxml"));
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+        }
 
 
-        ObservableList<DayScheduleItemBean> l = FXCollections.observableArrayList();
+        ObservableList<DayScheduleItemBean> scheduleItems = FXCollections.observableArrayList(daily ->
+                new Observable[] {daily.getStateProperty()});
 
-        public void initialize(URL location, ResourceBundle resources){
-                ResourceBundle rb = ResourceBundle.getBundle("app");
-                DBApi dbc = new DBApi(rb.getString("dsn"));
+        public void initialize(URL location, ResourceBundle resources) {
+                DBApi dbc = new DBApi();
 
                 Id.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Integer>("id"));
                 Activity.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("activity"));
                 Time.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("time"));
-                Done.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Byte>("done"));
+                State.setCellValueFactory(cellData -> cellData.getValue().getStateProperty());
+                State.setCellFactory(p -> new CheckBoxTableCell<>());
 
-
-                String connectQuery = "SELECT * FROM day_schedule_items";
-
-                try{
-
-                        List<DayScheduleItemBean> schedule = dbc.retrieveDailyScheduleFromDB();
-                        for (int i = 0; i < schedule.size(); i++) {
-                                DayScheduleItemBean sch = schedule.get(i);
-                                Integer id = sch.getId();
-                                String activity = sch.getActivity();
-                                String time = sch.getTime();
-                                Byte done = sch.getState();
-                                l.add(new DayScheduleItemBean(id, activity, time, done));
-
-                        }
-
-                        Table.setItems(l);
-
+                try {
+                        scheduleItems.addListener((ListChangeListener<DayScheduleItemBean>) b -> {
+                                while (b.next()) {
+                                        if (b.wasUpdated()) {
+                                                dbc.updateDailyItemState(scheduleItems.get(b.getFrom()).getId(),
+                                                        scheduleItems.get(b.getFrom()).getStateProperty().get());
+                                        }
+                                }
+                        });
+                        scheduleItems.addAll(dbc.retrieveDailyScheduleFromDB());
+                        Table.setItems(scheduleItems);
                 } catch (Exception e){
                         e.printStackTrace();
-
                 }
         }
-
 }
-
-
