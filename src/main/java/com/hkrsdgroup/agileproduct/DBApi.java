@@ -2,9 +2,7 @@ package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
-
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
-
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.util.List;
@@ -59,7 +57,6 @@ public class DBApi extends DBConnect {
         updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='course_tasks';");
     }
 
-
     public void resetIdDailyScheduleDB(){
         updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
     }
@@ -79,11 +76,8 @@ public class DBApi extends DBConnect {
                 new BeanListHandler<>(CourseScheduleTaskBean.class));
 
         List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
-//        TaskBean tb = rawTasks.stream().filter(t -> t.getId() == 1).findFirst().orElse(null);
-//        List<Integer> csb = scheduleTasks.stream().map(CourseScheduleTaskBean::getTaskId).toList();
-//        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
-//                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
-        return scheduleTasks;
+        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
+                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
     }
 
     public void updateDailyItemState(int id, boolean state) {
