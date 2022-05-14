@@ -1,53 +1,18 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 
 public class WeeklySchedule {
-    private final ResourceBundle rb = ResourceBundle.getBundle("app");
+    private List<String> difficultyLevels = List.of("Easy", "Medium", "Hard");
 
-    private String courseName;
-    private String assignment;
-    private int difficultyNumber;
-    private int endDate;
-    private String difficultyName;
-    private ArrayList<WeeklySchedule> myWeekList = new ArrayList<>();
-
-    public WeeklySchedule(){}
-
-    public WeeklySchedule(String courseName, String difficulty, int endDate, String assignment){
-        this.courseName = courseName;
-        this.difficultyNumber = AssignNumberToDifficulty(difficulty);
-        this.difficultyName = difficulty;
-        this.endDate = endDate;
-        this.assignment = assignment;
-    }
-
-    public ArrayList<WeeklySchedule> sortAddOnEndDate(ArrayList<WeeklySchedule> myWeekList, WeeklySchedule course){
-        myWeekList.add(course);
-        myWeekList.sort(Comparator.comparing(WeeklySchedule::getEndDate));
-        return myWeekList;
-    }
-
-    public int AssignNumberToDifficulty(String difficulty){
-        int difficultyInDays = 0;
-
-        if(Objects.equals(difficulty, "Hard")){
-            difficultyInDays = 3;
-        }else if(Objects.equals(difficulty, "Medium")){
-            difficultyInDays = 2;
-        }else if(Objects.equals(difficulty, "Easy")){
-            difficultyInDays = 1;
-        }
-        return difficultyInDays;
-    }
-
-    public String CourseToString(){
-        this.difficultyNumber = this.difficultyNumber - 1;
-        return this.courseName;
+    private int difficultyToNumber(String difficulty){
+        return difficultyLevels.indexOf(difficulty) + 1;
     }
 
     public String todayDate(){
@@ -68,170 +33,18 @@ public class WeeklySchedule {
         return sdf.format(c.getTime());
     }
 
-    // feature 1
-    public ArrayList<ArrayList> createWeeklyOneTask(ArrayList<WeeklySchedule> listOfCourses){
-        ArrayList<ArrayList> completeScheduleOneTask = new ArrayList<>();
-        int day = 1;
-        int innerLoop = 0;
+    public ArrayList<CourseScheduleTaskBean> createWeeklyOneTask(List<TaskBean> listOfTask){
+        ArrayList<CourseScheduleTaskBean> completeScheduleOneTask = new ArrayList<>();
         String firstDate = todayDate();
         String nextDate = incrementDateOneDay(firstDate);
 
-        while ( innerLoop < listOfCourses.size()){
-            while(listOfCourses.get(innerLoop).difficultyNumber >= 1){
-                ArrayList<String> oneDay = new ArrayList<>();
-                //oneDay.add("day" + day);
-                oneDay.add(nextDate);
-                oneDay.add(listOfCourses.get(innerLoop).CourseToString());
-                oneDay.add(listOfCourses.get(innerLoop).getAssignment());
-                oneDay.add(listOfCourses.get(innerLoop).getDifficultyName());
-                completeScheduleOneTask.add(oneDay);
+        for (TaskBean w: listOfTask) {
+            for (int i = 0; i < difficultyToNumber(w.getDifficulty()); i++) {
+                CourseScheduleTaskBean task = new CourseScheduleTaskBean(w.getId(), nextDate);
+                completeScheduleOneTask.add(task);
                 nextDate = incrementDateOneDay(nextDate);
-                day++;
             }
-            innerLoop++;
         }
         return completeScheduleOneTask;
-    }
-
-
-    //feature 2
-    public ArrayList<ArrayList> createWeeklyTwoTasks(ArrayList<WeeklySchedule> listOfCourses){
-
-        incrementDaysForTwoTaskSchedule(listOfCourses);
-        ArrayList<ArrayList> completeWeek = new ArrayList<>();
-        int day = 1;
-        int innerLoop = 0;
-        String firstDate = todayDate();
-        String nextDate = incrementDateOneDay(firstDate);
-
-        while ( innerLoop < listOfCourses.size()){
-            while(listOfCourses.get(innerLoop).difficultyNumber >= 1){
-                ArrayList<String> oneDay = new ArrayList<>();
-                oneDay.add("day" + day);
-                oneDay.add(nextDate);
-                oneDay.add(listOfCourses.get(innerLoop).getAssignment());
-                oneDay.add(listOfCourses.get(innerLoop).CourseToString());
-                oneDay.add(retrieveSecondTaskForDay(listOfCourses));
-                oneDay.add(retrieveSecondCourseForDay(listOfCourses));
-                completeWeek.add(oneDay);
-                nextDate = incrementDateOneDay(nextDate);
-                day++;
-            }
-            innerLoop++;
-        }
-        return completeWeek;
-    }
-
-    public String retrieveSecondCourseForDay(ArrayList<WeeklySchedule> listOfCourses){
-        String secondCourse = null;
-
-        for (WeeklySchedule listOfCourse : listOfCourses) {
-            if (listOfCourse.difficultyNumber > 0 &&
-                    Objects.equals(listOfCourse.difficultyName, "Hard")) {
-                secondCourse = listOfCourse.CourseToString();
-            }
-        }
-        if (secondCourse == null){
-            for(int i = 0; i < listOfCourses.size();i++){
-                if( listOfCourses.get(i).difficultyNumber > 0 &&
-                        Objects.equals(listOfCourses.get(i).difficultyName, "Medium")){
-                    secondCourse = listOfCourses.get(i).CourseToString();
-                }
-            }
-        }
-        if (secondCourse == null){
-            for(int i = 0; i < listOfCourses.size();i++){
-                if( listOfCourses.get(i).difficultyNumber > 0 &&
-                        Objects.equals(listOfCourses.get(i).difficultyName, "Easy")){
-                    secondCourse = listOfCourses.get(i).CourseToString();
-                }
-            }
-        }
-        return secondCourse;
-    }
-
-
-    public String retrieveSecondTaskForDay(ArrayList<WeeklySchedule> listOfCourses) {
-
-        String secondCourse = null;
-        for (int i = 0; i < listOfCourses.size(); i++) {
-            if (listOfCourses.get(i).difficultyNumber > 0 &&
-                    Objects.equals(listOfCourses.get(i).difficultyName, "Hard")) {
-                secondCourse = listOfCourses.get(i).getAssignment();
-            }
-        }
-            if (secondCourse == null) {
-                for (int i = 0; i < listOfCourses.size(); i++) {
-                    if (listOfCourses.get(i).difficultyNumber > 0 &&
-                            Objects.equals(listOfCourses.get(i).difficultyName, "Medium")) {
-                        secondCourse = listOfCourses.get(i).getAssignment();
-                    }
-                }
-            }
-            if (secondCourse == null) {
-                for (int i = 0; i < listOfCourses.size(); i++) {
-                    if (listOfCourses.get(i).difficultyNumber > 0 &&
-                            Objects.equals(listOfCourses.get(i).difficultyName, "Easy")) {
-                        secondCourse = listOfCourses.get(i).getAssignment();
-                    }
-                }
-            }
-            return secondCourse;
-    }
-
-    public void incrementDaysForTwoTaskSchedule(ArrayList<WeeklySchedule> listOfCourses){
-        for(int i = 0; i < listOfCourses.size();i++){
-            listOfCourses.get(i).difficultyNumber = listOfCourses.get(i).difficultyNumber * 2;
-        }
-    }
-
-
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public int getDifficultyNumber() {
-        return difficultyNumber;
-    }
-
-    public int getEndDate() {
-        return endDate;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public void setEndDate(int endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setDifficulty(int difficulty) { this.difficultyNumber = difficulty; }
-
-    public String getAssignment() {
-        return assignment;
-    }
-
-    public void setAssignment(String assignment) {
-        this.assignment = assignment;
-    }
-
-    public String getDifficultyName() {
-        return difficultyName;
-    }
-
-    public ArrayList<WeeklySchedule> getMyWeekList() {
-        return myWeekList;
-    }
-
-    public void setMyWeekList(ArrayList<WeeklySchedule> myWeekList) {
-        this.myWeekList = myWeekList;
-    }
-
-    @Override
-    public String toString() {
-        return courseName + " " + difficultyNumber + " " +
-                endDate + " " + difficultyName;
     }
 }
