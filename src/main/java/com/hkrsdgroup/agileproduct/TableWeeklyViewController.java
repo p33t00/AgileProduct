@@ -40,21 +40,15 @@ public class TableWeeklyViewController implements Initializable {
     @FXML
     private TableView<CourseScheduleTaskBean> weeklyTable;
 
-
     ObservableList<CourseScheduleTaskBean> scheduleTasks = FXCollections.observableArrayList();
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         DBApi dbc = new DBApi();
 
-        dbc.retrieveCourseScheduleTaskFromDB();
-
-
         taskDate.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("taskDate"));
         course.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("course"));
-        task.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("task"));
+        task.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("taskName"));
         difficulty.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("difficulty"));
 
         scheduleTasks.addAll(dbc.retrieveCourseScheduleTaskFromDB());

@@ -1,14 +1,12 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.*;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -93,21 +91,18 @@ public class DBConnect {
             }
         }
     }
-    public void insertWeeklyScheduleItems(ArrayList<ArrayList> courseSchedule) {
+    public void insertWeeklyScheduleItems(List<CourseScheduleTaskBean> courseSchedule) {
         Connection conn = null;
         PreparedStatement stmt = null;
-        Format formatter = new SimpleDateFormat("yyyy/MM/dd");
         try {
             conn = getDataSource().getConnection();
-            stmt = conn.prepareStatement("INSERT INTO course_schedule_tasks (taskDate, course, task, difficulty) VALUES (?,?,?,?);");
+            stmt = conn.prepareStatement("INSERT INTO course_schedule_tasks (taskId, taskDate) VALUES (?,?);");
             conn.setAutoCommit(false);
 
 
-            for (ArrayList arrayList : courseSchedule) {
-                stmt.setString(1, arrayList.get(0).toString());
-                stmt.setString(2, arrayList.get(1).toString());
-                stmt.setString(3, arrayList.get(2).toString());
-                stmt.setString(4, arrayList.get(3).toString());
+            for (CourseScheduleTaskBean task : courseSchedule) {
+                stmt.setInt(1, task.getTaskId());
+                stmt.setString(2, task.getTaskDate());
                 stmt.addBatch();
             }
 

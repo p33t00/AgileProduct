@@ -44,34 +44,6 @@ public class TimageController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
-//        // TODO
-        DBApi myCon = new DBApi();
-        myCon.initDBWeeklyOneTask();
-
-        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
-        ArrayList<ArrayList> completeWeek = new ArrayList<>();
-
-
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
-        myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "assignment connect");
-        myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
-        myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 210532, "implement functions");
-//        myCourse.sortAddOnEndDate(myWeek, myCourse4);
-
-//        myWeek.add(myCourse);
-//        myWeek.add(myCourse2);
-//        myWeek.add(myCourse3);
-//        myWeek.add(myCourse4);
-//        myWeek.sort(Comparator.comparing(WeeklySchedule::getEndDate));
-
-        completeWeek = myCourse.createWeeklyOneTask(myWeek);
-        myCon.insertWeeklyScheduleItems(completeWeek);
-
-
     }
 
     @FXML

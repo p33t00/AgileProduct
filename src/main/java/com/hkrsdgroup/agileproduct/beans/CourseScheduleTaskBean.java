@@ -2,48 +2,39 @@ package com.hkrsdgroup.agileproduct.beans;
 
 public class CourseScheduleTaskBean implements AgileBean{
     private final String table = "course_schedule_tasks";
-    private String course = null;
-    private String difficulty = null;
-    private String taskDate = null;
-    private String task = null;
 
-    public CourseScheduleTaskBean() {}
+    private int id = 0;
+    private int taskId = 0;
+    private String taskDate = null;
+//    private TaskBean task = null;
 
     @Override
     public String getTable() {
         return this.table;
     }
 
-    public CourseScheduleTaskBean(String course, String difficulty, String taskDate, String task) {
-        this.course = course;
-        this.difficulty = difficulty;
+    public CourseScheduleTaskBean(int taskId, String taskDate, TaskBean task) {
+        this.taskId = taskId;
         this.taskDate = taskDate;
-        this.task = task;
+//        this.task = task;
     }
 
-    public String getCourse() {
-        return course;
-    }
-    public String getDifficulty() {
-        return difficulty;
-    }
-    public String getTaskDate() {
-        return taskDate;
-    }
-    public String getTask() {
-        return task;
+    public CourseScheduleTaskBean(int taskId, String taskDate) {
+        this.taskId = taskId;
+        this.taskDate = taskDate;
+//        this.task = new TaskBean();
     }
 
-    public void setCourse(String course) {
-        this.course = course;
-    }
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-    public void setTaskDate(String task_date) {
-        this.taskDate = task_date;
-    }
-    public void setTask(String task) {
-        this.task = task;
-    }
+    public int getId() { return id; }
+    public int getTaskId() { return taskId; }
+//    public TaskBean getTask() { return task; }
+    public String getTaskDate() { return taskDate; }
+//    public String getCourse() { return task.getCourse(); }
+//    public String getTaskName() { return task.getTask(); }
+//    public String getDifficulty() { return task.getDifficulty(); }
+
+    public void setId(int id) { this.id = id; }
+    public void setTaskId(int taskId) { this.taskId = taskId; }
+    public void setTaskDate(String taskDate) { this.taskDate = taskDate; }
+//    public void setTask(TaskBean task) { this.task = task; }
 }

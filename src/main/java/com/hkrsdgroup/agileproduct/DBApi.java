@@ -7,7 +7,6 @@ import com.hkrsdgroup.agileproduct.beans.TaskBean;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,10 +26,8 @@ public class DBApi extends DBConnect {
     public void initDBWeeklyOneTask(){
         updateRawQuery("CREATE TABLE IF NOT EXISTS course_schedule_tasks (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                "taskDate VARCHAR(45)," +
-                "course VARCHAR(45)," +
-                "task VARCHAR(45)," +
-                "difficulty VARCHAR(45));");
+                "taskId INTEGER," +
+                "taskDate VARCHAR(45));");
     }
 
     public void initDBCourseTask(){
@@ -69,8 +66,15 @@ public class DBApi extends DBConnect {
     }
 
     public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskFromDB() {
-        return this.getEntity("SELECT * FROM course_schedule_tasks;",
+        List<CourseScheduleTaskBean> scheduleTasks = this.getEntity("SELECT * FROM course_schedule_tasks;",
                 new BeanListHandler<>(CourseScheduleTaskBean.class));
+
+        List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
+//        TaskBean tb = rawTasks.stream().filter(t -> t.getId() == 1).findFirst().orElse(null);
+//        List<Integer> csb = scheduleTasks.stream().map(CourseScheduleTaskBean::getTaskId).toList();
+//        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
+//                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
+        return scheduleTasks;
     }
 
     public void updateDailyItemState(int id, boolean state) {
