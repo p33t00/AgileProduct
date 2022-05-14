@@ -56,7 +56,9 @@ class DBApiTest {
         dbc.insertWeeklyScheduleItems(completed);
 
         List<CourseScheduleTaskBean> resultItems = dbc.retrieveCourseScheduleTaskFromDB();
-        //System.out.println(resultItems);
+        System.out.println(resultItems.get(0).getTaskId());
+        System.out.println(resultItems.get(0).getTaskDate());
+        System.out.println(resultItems.get(0).getTaskName());
 
     }
 
