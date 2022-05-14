@@ -1,5 +1,8 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileController {
 
@@ -48,7 +53,15 @@ public class ProfileController {
        int studyMin = Integer.parseInt(studyMinute.getText());
        String workout = workoutType.getText();
        String course = courseName.getText();
-       DailySchedule myDay = new DailySchedule(sleepTime, course, workout, studyHr, studyMin);
+       String combineCourseWithTask = "free_studying";
+       DBApi dbc = new DBApi();
+        List<CourseScheduleTaskBean> scheduleTasks = dbc.retrieveCourseScheduleTaskForTodayFromDB();
+        if(scheduleTasks.size() >= 1){
+        String courseName = scheduleTasks.get(0).getCourse();
+        String taskName = scheduleTasks.get(0).getTaskName();
+        combineCourseWithTask = courseName + '_' + taskName;
+       }
+       DailySchedule myDay = new DailySchedule(sleepTime, combineCourseWithTask, workout, studyHr, studyMin);
 
        myDay.sendDailyScheduleToDB(myDay.ScheduleDayOnlyLongSession());
        onCancelClick(event);
