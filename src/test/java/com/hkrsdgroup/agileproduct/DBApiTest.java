@@ -26,11 +26,10 @@ class DBApiTest {
         scheduleItems.add(new DayScheduleItemBean("Feed Cat", "02:30"));
         scheduleItems.add(new DayScheduleItemBean("Study Math", "03:00"));
 
-        createDayScheduleItemsTable(dbc);
+        dbc.initDB();
         dbc.insertDailyScheduleItems(scheduleItems);
 
         List<DayScheduleItemBean> resultItems = dbc.retrieveDailyScheduleFromDB();
-
 
         assertEquals(3, resultItems.size());
 
@@ -42,7 +41,8 @@ class DBApiTest {
         assertEquals(scheduleItems.get(1).getTime(), resultItems.get(1).getTime());
         assertEquals(scheduleItems.get(2).getTime(), resultItems.get(2).getTime());
 
-        dropDayScheduleItemsTable(dbc);
+//        dropDayScheduleItemsTable(dbc);
+        dbc.removeDailyScheduleFromDB();
     }
 
     @Test
@@ -86,7 +86,6 @@ class DBApiTest {
                 "difficulty VARCHAR(45));");
     }
 
-
     private void createDayScheduleItemsTable(DBConnect dbc) {
         dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS day_schedule_items (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
@@ -95,8 +94,47 @@ class DBApiTest {
                 "done TINYINT DEFAULT 0);");
     }
 
+    @Test
+    void retrieveCourseTaskFromDB() {
+        DBApi dbc = new DBApi(rb.getString("dsn-test"));
+        dropCourseTaskTable(dbc);
+
+        TaskBean task = new TaskBean("Agile", "Medium", 220625, "Project1");
+        TaskBean task1 = new TaskBean("Mathematics", "Hard", 2201009, "Examination 1");
+
+        dbc.initDBCourseTask();
+        dbc.insertTaskItems(task);
+        dbc.insertTaskItems(task1);
+
+        List<TaskBean> resultItems = dbc.retrieveCourseTaskFromDB();
+
+        assertEquals(2, resultItems.size());
+
+        assertEquals(task.getCourse(), resultItems.get(0).getCourse());
+        assertEquals(task.getDeadline(), resultItems.get(0).getDeadline());
+        assertEquals(task.getDifficulty(), resultItems.get(0).getDifficulty());
+        assertEquals(task.getTask(), resultItems.get(0).getTask());
+
+        assertEquals(task1.getCourse(), resultItems.get(1).getCourse());
+        assertEquals(task1.getDeadline(), resultItems.get(1).getDeadline());
+        assertEquals(task1.getDifficulty(), resultItems.get(1).getDifficulty());
+        assertEquals(task1.getTask(), resultItems.get(1).getTask());
+    }
+
     private void dropDayScheduleItemsTable(DBConnect dbc) {
         dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;");
+    }
+    public void createCourseTaskTable(DBConnect dbc){
+        dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS course_tasks (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "course VARCHAR(45)," +
+                "task VARCHAR(45)," +
+                "difficulty VARCHAR(45)," +
+                "deadline INTEGER);");
+    }
+
+        private void dropCourseTaskTable(DBConnect dbc) {
+        dbc.updateRawQuery("DROP TABLE IF EXISTS course_tasks;");
     }
 
 }
