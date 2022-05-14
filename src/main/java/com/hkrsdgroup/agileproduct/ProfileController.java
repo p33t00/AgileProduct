@@ -34,8 +34,6 @@ public class ProfileController {
     @FXML
     private TextField workoutType;
 
-    @FXML
-    private TextField courseName;
 
     @FXML
     void onCancelClick(ActionEvent event) throws IOException {
@@ -52,7 +50,6 @@ public class ProfileController {
        int studyHr = Integer.parseInt(studyHour.getText());
        int studyMin = Integer.parseInt(studyMinute.getText());
        String workout = workoutType.getText();
-       String course = courseName.getText();
        String combineCourseWithTask = "free_studying";
        DBApi dbc = new DBApi();
         List<CourseScheduleTaskBean> scheduleTasks = dbc.retrieveCourseScheduleTaskForTodayFromDB();
