@@ -37,39 +37,7 @@ class DBApiTest {
         assertEquals(scheduleItems.get(1).getTime(), resultItems.get(1).getTime());
         assertEquals(scheduleItems.get(2).getTime(), resultItems.get(2).getTime());
 
-        dbc.removeDailyScheduleFromDB();
-    }
-
-    @Test
-    void retrieveCourseScheduleTaskFromDB(){
-        DBApi dbc = new DBApi(rb.getString("dsn-test"));
-        dbc.removeWeeklyScheduleFromDB();
-        ArrayList<WeeklySchedule> myCourses = new ArrayList<>();
-        ArrayList<ArrayList> complete = new ArrayList<>();
-
-        WeeklySchedule course = new WeeklySchedule("database","Easy",220622,"assignment1");
-        WeeklySchedule course2 = new WeeklySchedule("agile","Easy",220723,"assignment2");
-        myCourses.add(course);
-        myCourses.add(course2);
-        complete.add(myCourses);
-        ArrayList<ArrayList> completed = course.createWeeklyOneTask(myCourses);
-
-        dbc.initDBWeeklyOneTask();
-        dbc.insertWeeklyScheduleItems(completed);
-
-        List<CourseScheduleTaskBean> resultItems = dbc.retrieveCourseScheduleTaskFromDB();
-
-        assertEquals(2, resultItems.size());
-        assertEquals(completed.get(0).get(0), resultItems.get(0).getTaskDate());
-        assertEquals(completed.get(0).get(1), resultItems.get(0).getCourse());
-        assertEquals(completed.get(0).get(2), resultItems.get(0).getTask());
-        assertEquals(completed.get(0).get(3), resultItems.get(0).getDifficulty());
-
-
-        assertEquals(completed.get(1).get(0), resultItems.get(1).getTaskDate());
-        assertEquals(completed.get(1).get(1), resultItems.get(1).getCourse());
-        assertEquals(completed.get(1).get(2), resultItems.get(1).getTask());
-        assertEquals(completed.get(1).get(3), resultItems.get(1).getDifficulty());
+        dropDBTables(dbc);
     }
 
     @Test
@@ -79,39 +47,45 @@ class DBApiTest {
         dbc.initDBWeeklyOneTask();
         dbc.initDBCourseTask();
 
-        List<CourseScheduleTaskBean> scheduleItems = new ArrayList<>();
-        scheduleItems.add(new CourseScheduleTaskBean(1, "2022-05-14"));
-        scheduleItems.add(new CourseScheduleTaskBean(2, "2022-05-15"));
-        scheduleItems.add(new CourseScheduleTaskBean(3, "2022-05-16"));
+        List<TaskBean> tasks = new ArrayList<>();
+        List<CourseScheduleTaskBean> assumedScheduleItems = new ArrayList<>();
 
-//        scheduleItems.add(new CourseScheduleTaskBean(1, "2022-05-14",
-//                new TaskBean("Math", "Hard", 220602, "Exam")));
-//        scheduleItems.add(new CourseScheduleTaskBean(2, "2022-05-15",
-//                new TaskBean("Agile", "Medium", 220529, "Final Report")));
-//        scheduleItems.add(new CourseScheduleTaskBean(3, "2022-05-16",
-//                new TaskBean("Databases", "Easy", 220615, "Homework")));
+        tasks.add(new TaskBean("Math", "Hard", 220602, "Exam"));
+        tasks.add(new TaskBean("Agile", "Medium", 220529, "Final Report"));
+        tasks.add(new TaskBean("Databases", "Easy", 220615, "Homework"));
 
-        dbc.insertWeeklyScheduleItems(scheduleItems);
+        assumedScheduleItems.add(new CourseScheduleTaskBean(1, "2022-05-14", tasks.get(0)));
+        assumedScheduleItems.add(new CourseScheduleTaskBean(2, "2022-05-15", tasks.get(1)));
+        assumedScheduleItems.add(new CourseScheduleTaskBean(3, "2022-05-16", tasks.get(2)));
 
-        List<TmpCourseScheduleTaskBean> resultItems = dbc.test_retrieveCourseScheduleTaskFromDB();
+        dbc.insertTaskItems(tasks.get(0));
+        dbc.insertTaskItems(tasks.get(1));
+        dbc.insertTaskItems(tasks.get(2));
+
+        dbc.insertWeeklyScheduleItems(assumedScheduleItems);
+
+        List<CourseScheduleTaskBean> resultItems = dbc.retrieveCourseScheduleTaskFromDB();
 
         assertEquals(3, resultItems.size());
 
-        assertEquals(scheduleItems.get(0).getTaskId(), resultItems.get(0).getTaskId());
-        assertEquals(scheduleItems.get(1).getTaskId(), resultItems.get(1).getTaskId());
-        assertEquals(scheduleItems.get(2).getTaskId(), resultItems.get(2).getTaskId());
+        assertEquals(assumedScheduleItems.get(0).getTaskId(), resultItems.get(0).getTaskId());
+        assertEquals(assumedScheduleItems.get(1).getTaskId(), resultItems.get(1).getTaskId());
+        assertEquals(assumedScheduleItems.get(2).getTaskId(), resultItems.get(2).getTaskId());
 
-//        assertEquals(scheduleItems.get(0).getTask().getCourse(), resultItems.get(0).getTask().getCourse());
-//        assertEquals(scheduleItems.get(1).getTask().getCourse(), resultItems.get(1).getTask().getCourse());
-//        assertEquals(scheduleItems.get(2).getTask().getCourse(), resultItems.get(2).getTask().getCourse());
+        assertEquals(assumedScheduleItems.get(0).getCourse(), resultItems.get(0).getCourse());
+        assertEquals(assumedScheduleItems.get(1).getCourse(), resultItems.get(1).getCourse());
+        assertEquals(assumedScheduleItems.get(2).getCourse(), resultItems.get(2).getCourse());
 
-        dropDayScheduleItemsTable(dbc);
+        assertEquals(assumedScheduleItems.get(0).getTask().getCourse(), resultItems.get(0).getTask().getCourse());
+        assertEquals(assumedScheduleItems.get(1).getTask().getCourse(), resultItems.get(1).getTask().getCourse());
+        assertEquals(assumedScheduleItems.get(2).getTask().getCourse(), resultItems.get(2).getTask().getCourse());
+
+        dropDBTables(dbc);
     }
 
     @Test
     void retrieveCourseTaskFromDB() {
         DBApi dbc = new DBApi(rb.getString("dsn-test"));
-        dropCourseTaskTable(dbc);
 
         TaskBean task = new TaskBean("Agile", "Medium", 220625, "Project1");
         TaskBean task1 = new TaskBean("Mathematics", "Hard", 2201009, "Examination 1");
@@ -133,13 +107,13 @@ class DBApiTest {
         assertEquals(task1.getDeadline(), resultItems.get(1).getDeadline());
         assertEquals(task1.getDifficulty(), resultItems.get(1).getDifficulty());
         assertEquals(task1.getTask(), resultItems.get(1).getTask());
+
+        dropDBTables(dbc);
     }
 
-    private void dropDayScheduleItemsTable(DBConnect dbc) {
+    private void dropDBTables(DBConnect dbc) {
         dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;");
-    }
-
-        private void dropCourseTaskTable(DBConnect dbc) {
         dbc.updateRawQuery("DROP TABLE IF EXISTS course_tasks;");
+        dbc.updateRawQuery("DROP TABLE IF EXISTS course_schedule_tasks;");
     }
 }
