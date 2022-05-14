@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WeeklyScheduleTest {
-
+/*
     @Test
     void courseRemoveDay(){
         WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
@@ -138,5 +138,7 @@ public class WeeklyScheduleTest {
         assertEquals(completeWeek.get(0).get(5), "agile");
         assertEquals(completeWeek.get(0).get(1),shouldBeDate);
     }
+
+ */
 }
 
