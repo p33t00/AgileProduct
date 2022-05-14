@@ -81,6 +81,8 @@ public class TimageController {
         myCon.resetIdDailyScheduleDB();
         myCon.removeWeeklyScheduleFromDB();
         myCon.resetIdWeeklyScheduleDB();
+        myCon.removeTasksFromDB();
+        myCon.resetIdTasksScheduleDB();
     }
 
     @FXML

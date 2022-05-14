@@ -54,6 +54,15 @@ public class DBApi extends DBConnect {
         updateRawQuery("DELETE FROM day_schedule_items;");
     }
 
+    public void removeTasksFromDB(){
+        updateRawQuery("DELETE FROM course_tasks;");
+    }
+
+    public void resetIdTasksScheduleDB(){
+        updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='course_tasks';");
+    }
+
+
     public void resetIdDailyScheduleDB(){
         updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
     }
@@ -68,7 +77,7 @@ public class DBApi extends DBConnect {
                 new BeanListHandler<>(TaskBean.class));
     }
 
-    public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskFromDB() {
+    public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskFromDB() {  // TODO tj
         return this.getEntity("SELECT * FROM course_schedule_tasks;",
                 new BeanListHandler<>(CourseScheduleTaskBean.class));
     }

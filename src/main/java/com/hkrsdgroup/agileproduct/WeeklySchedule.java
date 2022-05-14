@@ -93,7 +93,7 @@ public class WeeklySchedule {
         return completeScheduleOneTask;
     }
 
-    /*
+
     //feature 2
     public ArrayList<ArrayList> createWeeklyTwoTasks(ArrayList<WeeklySchedule> listOfCourses){
 
@@ -184,8 +184,6 @@ public class WeeklySchedule {
             listOfCourses.get(i).difficultyNumber = listOfCourses.get(i).difficultyNumber * 2;
         }
     }
-
-     */
 
 
 
