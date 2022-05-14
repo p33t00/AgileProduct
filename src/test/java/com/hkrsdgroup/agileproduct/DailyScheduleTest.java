@@ -69,10 +69,10 @@ public class DailyScheduleTest {
     }
 
     @Test
-    void getWorkout(){
+    void getSelfActivity(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
 
-        assertEquals("gym", myDay.getWorkout());
+        assertEquals("gym", myDay.getSelfActivity());
     }
 
     @Test
@@ -109,11 +109,11 @@ public class DailyScheduleTest {
     }
 
     @Test
-    void setWorkout(){
+    void setSelfActivity(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
-        myDay.setWorkout("boxing");
+        myDay.setSelfActivity("boxing");
 
-        assertEquals("boxing", myDay.getWorkout());
+        assertEquals("boxing", myDay.getSelfActivity());
     }
 
     @Test

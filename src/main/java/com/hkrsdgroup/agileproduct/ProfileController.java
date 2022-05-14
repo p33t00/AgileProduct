@@ -49,7 +49,7 @@ public class ProfileController {
        int sleepTime = Integer.parseInt(sleepHour.getText());
        int studyHr = Integer.parseInt(studyHour.getText());
        int studyMin = Integer.parseInt(studyMinute.getText());
-       String workout = workoutType.getText();
+       String selfActivity = workoutType.getText();
        String combineCourseWithTask = "free_studying";
        DBApi dbc = new DBApi();
         List<CourseScheduleTaskBean> scheduleTasks = dbc.retrieveCourseScheduleTaskForTodayFromDB();
@@ -58,7 +58,7 @@ public class ProfileController {
         String taskName = scheduleTasks.get(0).getTaskName();
         combineCourseWithTask = courseName + '_' + taskName;
        }
-       DailySchedule myDay = new DailySchedule(sleepTime, combineCourseWithTask, workout, studyHr, studyMin);
+       DailySchedule myDay = new DailySchedule(sleepTime, combineCourseWithTask, selfActivity, studyHr, studyMin);
 
        myDay.sendDailyScheduleToDB(myDay.ScheduleDayOnlyLongSession());
        onCancelClick(event);
