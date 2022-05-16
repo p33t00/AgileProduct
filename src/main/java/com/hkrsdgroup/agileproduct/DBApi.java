@@ -5,6 +5,7 @@ import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -71,6 +72,14 @@ public class DBApi extends DBConnect {
                 new BeanListHandler<>(TaskBean.class));
     }
 
+    public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskForTodayFromDB() {
+        List<CourseScheduleTaskBean> scheduleTasks = this.getEntity("SELECT * FROM course_schedule_tasks where taskDate like Date('now');",
+                new BeanListHandler<>(CourseScheduleTaskBean.class));
+        List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
+        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
+                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
+    }
+
     public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskFromDB() {
         List<CourseScheduleTaskBean> scheduleTasks = this.getEntity("SELECT * FROM course_schedule_tasks;",
                 new BeanListHandler<>(CourseScheduleTaskBean.class));
@@ -83,4 +92,5 @@ public class DBApi extends DBConnect {
     public void updateDailyItemState(int id, boolean state) {
         updateRawQuery(String.format("UPDATE day_schedule_items SET state = %b WHERE id = %d;", state, id));
     }
+
 }

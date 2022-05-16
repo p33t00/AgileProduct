@@ -8,38 +8,43 @@ import java.util.ResourceBundle;
 
 public class DailySchedule {
     private int sleepAmount;
+
     private int clock;
     private int startDay;
     private int endDay;
+
     private String assignment1;
-    private String workout;
+    private String selfActivity;
+    private final int mealGap = 4;
+    private final int afterLunchStudy = 5;
     private final int breakfast = 30;
     private final int lunch = 60;
     private final int shortSession = 30;
-    private final int longSession = 120;
+    private final int longSession = 60;
     private final int shortBreak = 5;
-    private final int longBreak = 30;
+    private final int longBreak = 20;
 
-    public DailySchedule(int sleep, String workout, int beginDayHour){
-        this.sleepAmount = sleep*60;
-        this.workout = workout;
-        this.clock = beginDayHour;
-        this.startDay = beginDayHour;
-        this.endDay = (24*60 + beginDayHour) - sleepAmount;
-    }
+//    public DailySchedule(int sleep, String workout, int beginDayHour){
+//        this.sleepAmount = sleep*60;
+//        this.workout = workout;
+//        this.clock = beginDayHour;
+//        this.startDay = beginDayHour;
+//        this.endDay = (24*60 + beginDayHour) - sleepAmount;
+//    }
 
-    public DailySchedule(int sleep,String course ,String workout, int hour, int minutes){
+    public DailySchedule(int sleep,String course ,String selfActivity, int hour, int minutes){
         this.sleepAmount = sleep*60;
-        this.workout = workout;
+        this.selfActivity = selfActivity;
         this.clock = calculateConstructorTime(hour,minutes);
         this.startDay = calculateConstructorTime(hour, minutes);
-        this.endDay = (24*60 + calculateConstructorTime(hour, minutes)) - sleepAmount;
+        this.endDay = (24*60 + calculateConstructorTime(hour, minutes)) - sleepAmount- breakfast;
         this.assignment1 = course;
     }
 
     public String breakfast(){
-        String start = converter(this.clock) + " - Breakfast";
-        this.clock += breakfast;
+        int breakFastTime = this.clock - breakfast;
+        String start = converter(breakFastTime) + " - Breakfast";
+//        this.clock += breakfast;
         return start;
     }
 
@@ -56,7 +61,7 @@ public class DailySchedule {
     }
 
     public String longBreak(){
-        String longBreakTime = converter(this.clock) + " - long break";
+        String longBreakTime = converter(this.clock) + " - break";
         this.clock += this.longBreak;
         return longBreakTime;
     }
@@ -72,6 +77,18 @@ public class DailySchedule {
         this.clock += this.lunch;
         return lunchTime;
     }
+
+    public String free(){
+        String freeTime = converter(this.clock) + "- Done for the day";
+        return freeTime;
+    }
+
+    public String activity(){
+        String selfActivity = converter(this.clock) + "- Activity that you like";
+        this.clock += 60;
+        return selfActivity;
+    }
+
 
     public List<String> ScheduleDayOnlyShortSession(){
         List<String> daily = new ArrayList<String>();
@@ -96,16 +113,32 @@ public class DailySchedule {
         List<String> daily = new ArrayList<String>();
 
         daily.add(breakfast());
-        while(this.clock < 12*60){
+        while(this.clock < this.startDay  +(mealGap*60)){
             daily.add(longSession());
             daily.add(longBreak());
         }
-        daily.add(lunch());
-        while(this.clock < 16*60){
+        String temp = daily.get(daily.size()-1);
+        if(temp.matches("(.*)break")){
+            daily.set(daily.size()-1, lunch());
+        }
+        else {
+            daily.add(lunch());
+        }
+        int secondHalf = this.clock + (afterLunchStudy*60);
+        while(this.clock < secondHalf) {
+
             daily.add(longSession());
             daily.add(longBreak());
         }
-        daily.add(converter(this.endDay) + " - Goodnight!");
+        String temp1 = daily.get(daily.size()-1);
+        if(temp1.matches("(.*)break")){
+            daily.set(daily.size()-1, activity());
+        }
+        else {
+            daily.add(activity());
+        }
+        daily.add(free());
+        daily.add(converter(this.endDay) + " - Must sleep to get the required sleep!");
         this.clock = startDay;
 
         return daily;
@@ -182,8 +215,8 @@ public class DailySchedule {
         this.assignment1 = assignment1;
     }
 
-    public void setWorkout(String workout) {
-        this.workout = workout;
+    public void setSelfActivity(String selfActivity) {
+        this.selfActivity = selfActivity;
     }
 
     public int getSleepAmount() {
@@ -194,8 +227,8 @@ public class DailySchedule {
         return assignment1;
     }
 
-    public String getWorkout() {
-        return workout;
+    public String getSelfActivity() {
+        return selfActivity;
     }
 
     public int getEndDay() {
@@ -220,7 +253,7 @@ public class DailySchedule {
                 "sleepAmount=" + sleepAmount +
                 ", startDay=" + clock +
                 ", assigment1='" + assignment1 + '\'' +
-                ", workout='" + workout + '\'' +
+                ", workout='" + selfActivity + '\'' +
                 ", breakfast=" + breakfast +
                 ", lunch=" + lunch +
                 ", shortSession=" + shortSession +
