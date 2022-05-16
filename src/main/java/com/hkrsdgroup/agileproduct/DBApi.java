@@ -73,7 +73,8 @@ public class DBApi extends DBConnect {
     }
 
     public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskForTodayFromDB() {
-        List<CourseScheduleTaskBean> scheduleTasks = this.getEntity("SELECT * FROM course_schedule_tasks where taskDate like Date('now');",
+        List<CourseScheduleTaskBean> scheduleTasks = this.getEntity(
+                "SELECT * FROM course_schedule_tasks where taskDate like Date('now');",
                 new BeanListHandler<>(CourseScheduleTaskBean.class));
         List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
         return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
