@@ -24,13 +24,6 @@ public class DailySchedule {
     private final int shortBreak = 5;
     private final int longBreak = 20;
 
-//    public DailySchedule(int sleep, String workout, int beginDayHour){
-//        this.sleepAmount = sleep*60;
-//        this.workout = workout;
-//        this.clock = beginDayHour;
-//        this.startDay = beginDayHour;
-//        this.endDay = (24*60 + beginDayHour) - sleepAmount;
-//    }
 
     public DailySchedule(int sleep,String course ,String selfActivity, int hour, int minutes){
         this.sleepAmount = sleep*60;
@@ -44,7 +37,6 @@ public class DailySchedule {
     public String breakfast(){
         int breakFastTime = this.clock - breakfast;
         String start = converter(breakFastTime) + " - Breakfast";
-//        this.clock += breakfast;
         return start;
     }
 

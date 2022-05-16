@@ -55,6 +55,7 @@ public class TableController implements Initializable {
                 new Observable[] {daily.getStateProperty()});
 
         public void initialize(URL location, ResourceBundle resources) {
+
                 DBApi dbc = new DBApi();
 
                 Id.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Integer>("id"));
