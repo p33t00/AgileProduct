@@ -4,7 +4,6 @@ import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
