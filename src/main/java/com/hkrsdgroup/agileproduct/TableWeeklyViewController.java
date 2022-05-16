@@ -24,6 +24,7 @@ public class TableWeeklyViewController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private DBApi dbc = new DBApi();
 
     @FXML
     private TableColumn<CourseScheduleTaskBean, String> task;
@@ -44,8 +45,6 @@ public class TableWeeklyViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        DBApi dbc = new DBApi();
-
         taskDate.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("taskDate"));
         course.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("course"));
         task.setCellValueFactory(new PropertyValueFactory<CourseScheduleTaskBean, String>("taskName"));

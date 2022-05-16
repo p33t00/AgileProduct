@@ -26,6 +26,8 @@ public class TableController implements Initializable {
         private Stage stage;
         private Scene scene;
         private Parent root;
+        private DBApi dbc = new DBApi();
+
         @FXML
         private TableColumn<DayScheduleItemBean, Integer> Id;
 
@@ -55,9 +57,6 @@ public class TableController implements Initializable {
                 new Observable[] {daily.getStateProperty()});
 
         public void initialize(URL location, ResourceBundle resources) {
-
-                DBApi dbc = new DBApi();
-
                 Id.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,Integer>("id"));
                 Activity.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("activity"));
                 Time.setCellValueFactory(new PropertyValueFactory<DayScheduleItemBean,String>("time"));

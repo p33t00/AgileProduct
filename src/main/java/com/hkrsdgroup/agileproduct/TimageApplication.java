@@ -7,7 +7,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 public class TimageApplication extends Application {
 
@@ -23,8 +22,7 @@ public class TimageApplication extends Application {
     }
 
     public static void main(String[] args) {
-        ResourceBundle rb = ResourceBundle.getBundle("app");
-        DBApi myConnection = new DBApi(rb.getString("dsn"));
+        DBApi myConnection = new DBApi();
         myConnection.initDB();
         myConnection.initDBWeeklyOneTask();
         myConnection.initDBCourseTask();

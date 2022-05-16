@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileController {
@@ -21,6 +20,7 @@ public class ProfileController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private DBApi dbc = new DBApi();
 
     @FXML
     private TextField sleepHour;
@@ -51,7 +51,7 @@ public class ProfileController {
        int studyMin = Integer.parseInt(studyMinute.getText());
        String selfActivity = workoutType.getText();
        String combineCourseWithTask = "free_studying";
-       DBApi dbc = new DBApi();
+
         List<CourseScheduleTaskBean> scheduleTasks = dbc.retrieveCourseScheduleTaskForTodayFromDB();
         if(scheduleTasks.size() >= 1){
         String courseName = scheduleTasks.get(0).getCourse();

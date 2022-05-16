@@ -4,9 +4,10 @@ import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class DailySchedule {
+    private DBApi dbc = new DBApi();
+
     private int sleepAmount;
 
     private int clock;
@@ -174,7 +175,6 @@ public class DailySchedule {
     }
 
     public void sendDailyScheduleToDB(List<String> schedule){
-        DBApi dbc = new DBApi();
         List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
 
         for(int i = 0; i < schedule.size();i++){
@@ -225,14 +225,6 @@ public class DailySchedule {
 
     public int getEndDay() {
         return endDay;
-    }
-
-    public List<DayScheduleItemBean> getDayScheduleItems() {
-        List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
-        scheduleItems.add(new DayScheduleItemBean("Eat food", "01:20"));
-        scheduleItems.add(new DayScheduleItemBean("Feed Cat", "02:30"));
-        scheduleItems.add(new DayScheduleItemBean("Study Math", "03:00"));
-        return scheduleItems;
     }
 
     public void setEndDay(int endDay) {

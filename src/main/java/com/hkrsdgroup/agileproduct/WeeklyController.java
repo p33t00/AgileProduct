@@ -23,6 +23,7 @@ public class WeeklyController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private DBApi myCon = new DBApi();
 
     @FXML
     private TextField course_name;
@@ -47,7 +48,6 @@ public class WeeklyController implements Initializable {
 
     @FXML
     void onSubmitClick(ActionEvent event) throws IOException {
-        DBApi myCon = new DBApi();
         myCon.removeWeeklyScheduleFromDB();
 
         String course = course_name.getText();
