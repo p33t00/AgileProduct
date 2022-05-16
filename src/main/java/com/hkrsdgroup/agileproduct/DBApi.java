@@ -2,11 +2,10 @@ package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
-
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
-
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -59,7 +58,6 @@ public class DBApi extends DBConnect {
         updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='course_tasks';");
     }
 
-
     public void resetIdDailyScheduleDB(){
         updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
     }
@@ -74,19 +72,25 @@ public class DBApi extends DBConnect {
                 new BeanListHandler<>(TaskBean.class));
     }
 
+    public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskForTodayFromDB() {
+        List<CourseScheduleTaskBean> scheduleTasks = this.getEntity("SELECT * FROM course_schedule_tasks where taskDate like Date('now');",
+                new BeanListHandler<>(CourseScheduleTaskBean.class));
+        List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
+        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
+                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
+    }
+
     public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskFromDB() {
         List<CourseScheduleTaskBean> scheduleTasks = this.getEntity("SELECT * FROM course_schedule_tasks;",
                 new BeanListHandler<>(CourseScheduleTaskBean.class));
 
         List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
-//        TaskBean tb = rawTasks.stream().filter(t -> t.getId() == 1).findFirst().orElse(null);
-//        List<Integer> csb = scheduleTasks.stream().map(CourseScheduleTaskBean::getTaskId).toList();
-//        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
-//                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
-        return scheduleTasks;
+        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
+                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
     }
 
     public void updateDailyItemState(int id, boolean state) {
         updateRawQuery(String.format("UPDATE day_schedule_items SET state = %b WHERE id = %d;", state, id));
     }
+
 }

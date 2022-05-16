@@ -30,14 +30,14 @@ public class Main {
                     int sleepTime = myScan.nextInt();
                     System.out.println("what are you studying?");
                     String lecture = myScan.next();
-                    System.out.println("your type of workout");
-                    String workout = myScan.next();
+                    System.out.println("your type of activity");
+                    String selfActivity = myScan.next();
                     System.out.println("What hour to start?");
                     int dayStartHour = myScan.nextInt();
                     System.out.println("What minute to start?");
                     int dayStartMin = myScan.nextInt();
 
-                    myDay = new DailySchedule(sleepTime, lecture, workout, dayStartHour, dayStartMin);
+                    myDay = new DailySchedule(sleepTime, lecture, selfActivity, dayStartHour, dayStartMin);
 
                     break;
                 case 2:

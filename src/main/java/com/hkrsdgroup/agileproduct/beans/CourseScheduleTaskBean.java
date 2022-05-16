@@ -13,6 +13,8 @@ public class CourseScheduleTaskBean implements AgileBean{
         return this.table;
     }
 
+    public CourseScheduleTaskBean() {}
+
     public CourseScheduleTaskBean(int taskId, String taskDate, TaskBean task) {
         this.taskId = taskId;
         this.taskDate = taskDate;
@@ -29,9 +31,9 @@ public class CourseScheduleTaskBean implements AgileBean{
     public int getTaskId() { return taskId; }
     public TaskBean getTask() { return task; }
     public String getTaskDate() { return taskDate; }
-//    public String getCourse() { return task.getCourse(); }
-//    public String getTaskName() { return task.getTask(); }
-//    public String getDifficulty() { return task.getDifficulty(); }
+    public String getCourse() { return task.getCourse(); }
+    public String getTaskName() { return task.getTask(); }
+    public String getDifficulty() { return task.getDifficulty(); }
 
     public void setId(int id) { this.id = id; }
     public void setTaskId(int taskId) { this.taskId = taskId; }
