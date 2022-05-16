@@ -17,7 +17,7 @@
             <Font size="18.0" />
           </font>
         </Label>
-            <TableView id="Table" fx:id="Table" editable="true" layoutX="3.0" layoutY="-19.0" prefHeight="369.0" prefWidth="634.0">
+            <TableView id="Table" fx:id="Table" editable="true" layoutX="3.0" layoutY="3.0" prefHeight="347.0" prefWidth="634.0">
               <columns>
                 <TableColumn fx:id="Id" editable="false" prefWidth="75.0" text="Id" />
                 <TableColumn fx:id="Activity" editable="false" prefWidth="250.0" text="Activity" />
