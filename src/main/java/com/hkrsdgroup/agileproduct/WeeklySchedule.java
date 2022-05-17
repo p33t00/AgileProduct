@@ -15,13 +15,13 @@ public class WeeklySchedule {
         return difficultyLevels.indexOf(difficulty) + 1;
     }
 
-    public String todayDate(){
+    private String todayDate(){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         return formatter.format(date);
     }
 
-    public String incrementDateOneDay(String inputDate){
+    private String incrementDateOneDay(String inputDate){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         try {
