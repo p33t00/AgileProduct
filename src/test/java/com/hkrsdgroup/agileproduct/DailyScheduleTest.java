@@ -29,7 +29,7 @@ public class DailyScheduleTest {
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         String breakfast = myDay.breakfast();
 
-        assertEquals("08:30 - Breakfast", breakfast);
+        assertEquals("08:00 - Breakfast", breakfast);
     }
 
     @Test
@@ -79,9 +79,10 @@ public class DailyScheduleTest {
     void getEndDay(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
 
-        assertEquals("00:30", myDay.converter(myDay.getEndDay()));
+        assertEquals("00:00", myDay.converter(myDay.getEndDay()));
     }
 
+    /*
     @Test
     void getDayScheduleItems(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
@@ -91,6 +92,8 @@ public class DailyScheduleTest {
         assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(1));
         assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(2));
     }
+
+     */
 
     @Test
     void setStartDay(){
@@ -153,31 +156,31 @@ public class DailyScheduleTest {
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> shortSchedule = myDay.ScheduleDayOnlyShortSession();
 
-        assertEquals("08:30 - Breakfast", shortSchedule.get(0));
-        assertEquals("12:30 - Lunch", shortSchedule.get(13));
-        assertEquals("00:30 - Goodnight!", shortSchedule.get(24));
+        assertEquals("08:00 - Breakfast", shortSchedule.get(0));
+        assertEquals("12:00 - Lunch", shortSchedule.get(13));
+        assertEquals("00:00 - Goodnight!", shortSchedule.get(26));
     }
 
     @Test
     void featureMixSessions(){
-        int strings = 11;
+        int strings = 19;
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> mixSchedule = myDay.ScheduleDayMixedSession();
 
         assertEquals(strings, mixSchedule.size());
-        assertEquals("08:30 - Breakfast", mixSchedule.get(0));
-        assertEquals("15:05 - long break", mixSchedule.get(7));
+        assertEquals("08:00 - Breakfast", mixSchedule.get(0));
+        assertEquals("15:15 - agile", mixSchedule.get(14));
     }
 
     @Test
     void featureLongSessions(){
-        int strings = 9;
+        int strings = 17;
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> longSchedule = myDay.ScheduleDayOnlyLongSession();
 
         assertEquals(strings, longSchedule.size());
-        assertEquals("08:30 - Breakfast", longSchedule.get(0));
-        assertEquals("17:00 - long break", longSchedule.get(7));
-        assertEquals("00:30 - Goodnight!", longSchedule.get(8));
+        assertEquals("08:00 - Breakfast", longSchedule.get(0));
+        assertEquals("13:30 - agile", longSchedule.get(7));
+        assertEquals("00:00 - Must sleep to get the required sleep!", longSchedule.get(16));
     }
 }

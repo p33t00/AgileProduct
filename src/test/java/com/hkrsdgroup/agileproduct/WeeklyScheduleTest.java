@@ -11,18 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WeeklyScheduleTest {
 
-<<<<<<< HEAD
-    @Test
-    void todayDate() {
-        WeeklySchedule week = new WeeklySchedule();
-        String todayDate = week.todayDate();
-
-        assertEquals("2022-05-14", todayDate);
-   }
-
-=======
->>>>>>> ab061a411bb9deebb25e07911481bda8c5d5638f
-
     @Test
     void createWeeklyOneTask() {
         WeeklySchedule week = new WeeklySchedule();
