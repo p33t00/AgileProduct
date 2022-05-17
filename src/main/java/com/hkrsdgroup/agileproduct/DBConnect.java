@@ -91,6 +91,7 @@ public class DBConnect {
             }
         }
     }
+
     public void insertWeeklyScheduleItems(List<CourseScheduleTaskBean> courseSchedule) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -123,6 +124,7 @@ public class DBConnect {
             }
         }
     }
+
     public void insertTaskItems(TaskBean task) {
         Connection conn = null;
         PreparedStatement stmt = null;
