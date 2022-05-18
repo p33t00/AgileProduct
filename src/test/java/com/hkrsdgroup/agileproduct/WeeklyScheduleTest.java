@@ -40,9 +40,8 @@ public class WeeklyScheduleTest {
         c.add(Calendar.DATE, 1);
         String dayAfter = formatter.format(c.getTime());
 
-        assertEquals(today, completeSchedule.get(0).getTaskDate());
-        assertEquals(nxtDay, completeSchedule.get(1).getTaskDate());
+        assertEquals(nxtDay, completeSchedule.get(0).getTaskDate());
+        assertEquals(dayAfter, completeSchedule.get(1).getTaskDate());
 
     }
-
 }
