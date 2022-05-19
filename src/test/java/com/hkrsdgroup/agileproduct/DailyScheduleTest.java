@@ -3,11 +3,14 @@ package com.hkrsdgroup.agileproduct;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DailyScheduleTest {
+    private final ResourceBundle rb = ResourceBundle.getBundle("app");
 
     @Test
     void createDailyObject(){
@@ -81,19 +84,6 @@ public class DailyScheduleTest {
 
         assertEquals("00:00", myDay.converter(myDay.getEndDay()));
     }
-
-    /*
-    @Test
-    void getDayScheduleItems(){
-        DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
-
-        assertEquals(3, myDay.getDayScheduleItems().size());
-        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(0));
-        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(1));
-        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(2));
-    }
-
-     */
 
     @Test
     void setStartDay(){
@@ -182,5 +172,17 @@ public class DailyScheduleTest {
         assertEquals("08:00 - Breakfast", longSchedule.get(0));
         assertEquals("13:30 - agile", longSchedule.get(7));
         assertEquals("00:00 - Must sleep to get the required sleep!", longSchedule.get(16));
+    }
+
+    @Test
+    void sendDailyToDB(){
+        DBApi dbc = new DBApi(rb.getString("dsn-test"));
+        dbc.initDB();
+        DailySchedule myDay = new DailySchedule(8,"agile","yoga",8,30);
+        myDay.setDBC(dbc);
+        myDay.ScheduleDayMixedSession(); // sends to test DB
+
+        dbc.removeDailyScheduleFromDB();
+        dbc.resetIdDailyScheduleDB();
     }
 }

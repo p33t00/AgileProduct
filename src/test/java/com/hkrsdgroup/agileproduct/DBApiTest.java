@@ -66,6 +66,7 @@ class DBApiTest {
 
         List<CourseScheduleTaskBean> resultItems = dbc.retrieveCourseScheduleTaskFromDB();
 
+
         assertEquals(3, resultItems.size());
 
         assertEquals(assumedScheduleItems.get(0).getTaskId(), resultItems.get(0).getTaskId());
@@ -115,5 +116,71 @@ class DBApiTest {
         dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;");
         dbc.updateRawQuery("DROP TABLE IF EXISTS course_tasks;");
         dbc.updateRawQuery("DROP TABLE IF EXISTS course_schedule_tasks;");
+    }
+
+    @Test
+    void resetIDWeekly(){
+        DBApi dbc = new DBApi(rb.getString("dsn-test"));
+        // init db
+        dbc.initDBWeeklyOneTask();
+        dbc.initDBCourseTask();
+
+        List<TaskBean> tasks = new ArrayList<>();
+        List<CourseScheduleTaskBean> assumedScheduleItems = new ArrayList<>();
+
+        tasks.add(new TaskBean("Math", "Hard", 220602, "Exam"));
+        assumedScheduleItems.add(new CourseScheduleTaskBean(1, "2022-05-14", tasks.get(0)));
+        dbc.insertTaskItems(tasks.get(0));
+        dbc.insertWeeklyScheduleItems(assumedScheduleItems);
+
+        removeWeeklyScheduleFromDB(dbc);
+        resetIdWeeklyScheduleDB(dbc);
+
+        tasks.add(new TaskBean("Math", "Hard", 220602, "Exam"));
+        assumedScheduleItems.add(new CourseScheduleTaskBean(1, "2022-05-14", tasks.get(0)));
+        dbc.insertTaskItems(tasks.get(0));
+        dbc.insertWeeklyScheduleItems(assumedScheduleItems);
+
+        List<CourseScheduleTaskBean> resultItems = dbc.retrieveCourseScheduleTaskFromDB();
+
+        assertEquals(1, resultItems.get(0).getTaskId());
+        dropDBTables(dbc);
+    }
+
+    @Test
+    void resetIdDaily(){
+        DBApi dbc = new DBApi(rb.getString("dsn-test"));
+        List<DayScheduleItemBean> scheduleItems = new ArrayList<>();
+        scheduleItems.add(new DayScheduleItemBean("Eat food", "01:20"));
+
+        dbc.initDB();
+        dbc.insertDailyScheduleItems(scheduleItems);
+
+        removeDailyScheduleFromDB(dbc);
+        resetIdDailyScheduleDB(dbc);
+
+        List<DayScheduleItemBean> resultItems1 = dbc.retrieveDailyScheduleFromDB();
+        assertEquals(0,resultItems1.size());
+        dbc.insertDailyScheduleItems(scheduleItems);
+
+        List<DayScheduleItemBean> resultItems2 = dbc.retrieveDailyScheduleFromDB();
+        assertEquals(1,resultItems2.get(0).getId());
+        dropDBTables(dbc);
+    }
+
+    public void removeDailyScheduleFromDB(DBConnect dbc){
+        dbc.updateRawQuery("DELETE FROM day_schedule_items;");
+    }
+
+    public void resetIdDailyScheduleDB(DBConnect dbc){
+        dbc.updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
+    }
+
+    public void resetIdWeeklyScheduleDB(DBConnect dbc){
+        dbc.updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='course_schedule_tasks';");
+    }
+
+    public void removeWeeklyScheduleFromDB(DBConnect dbc){
+        dbc.updateRawQuery("DELETE FROM course_schedule_tasks;");
     }
 }
