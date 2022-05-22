@@ -142,7 +142,7 @@ public class DailyScheduleTest {
     }
 
     @Test
-    void featureShortSessions(){
+    void featureShortSessions01(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> shortSchedule = myDay.ScheduleDayOnlyShortSession();
 
@@ -152,7 +152,7 @@ public class DailyScheduleTest {
     }
 
     @Test
-    void featureMixSessions(){
+    void featureMixSessions02(){
         int strings = 19;
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> mixSchedule = myDay.ScheduleDayMixedSession();
@@ -163,7 +163,7 @@ public class DailyScheduleTest {
     }
 
     @Test
-    void featureLongSessions(){
+    void featureLongSessions03(){
         int strings = 17;
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> longSchedule = myDay.ScheduleDayOnlyLongSession();
