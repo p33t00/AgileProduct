@@ -15,7 +15,7 @@ public class TimageController {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private DBApi myCon = new DBApi();
+    private DBApi dbc = new DBApi();
 
     @FXML
     void onDailyScheduleButtonClick(ActionEvent event) throws IOException {
@@ -48,11 +48,11 @@ public class TimageController {
 
     @FXML
     void onResetScheduleClick(ActionEvent event) {
-        myCon.removeDailyScheduleFromDB();
-        myCon.resetIdDailyScheduleDB();
-        myCon.removeWeeklyScheduleFromDB();
-        myCon.resetIdWeeklyScheduleDB();
-        myCon.removeTasksFromDB();
-        myCon.resetIdTasksScheduleDB();
+        dbc.removeDailyScheduleFromDB();
+        dbc.resetIdDailyScheduleDB();
+        dbc.removeWeeklyScheduleFromDB();
+        dbc.resetIdWeeklyScheduleDB();
+        dbc.removeTasksFromDB();
+        dbc.resetIdTasksScheduleDB();
     }
 }

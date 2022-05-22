@@ -23,7 +23,7 @@ public class WeeklyController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private DBApi myCon = new DBApi();
+    private DBApi dbc = new DBApi();
 
     @FXML
     private TextField course_name;
@@ -48,22 +48,22 @@ public class WeeklyController implements Initializable {
 
     @FXML
     void onSubmitClick(ActionEvent event) throws IOException {
-        myCon.removeWeeklyScheduleFromDB();
+        dbc.removeWeeklyScheduleFromDB();
 
         String course = course_name.getText();
         String task = task_name.getText();
         String level = difficulty.getValue();
         int endDate = Integer.parseInt(deadline.getText());
 
-        myCon.insertTaskItems(new TaskBean(course, level, endDate, task));
+        dbc.insertTaskItems(new TaskBean(course, level, endDate, task));
 
-        List<TaskBean> task_list = myCon.retrieveCourseTaskFromDB();
+        List<TaskBean> task_list = dbc.retrieveCourseTaskFromDB();
         WeeklySchedule weeklyData = new WeeklySchedule();
 
         // sorting tasks by deadline
         task_list.sort(Comparator.comparing(TaskBean::getDeadline));
 
-        myCon.insertWeeklyScheduleItems(weeklyData.createWeeklyOneTask(task_list));
+        dbc.insertWeeklyScheduleItems(weeklyData.createWeeklyOneTask(task_list));
         onCancelClick(event);
     }
 
