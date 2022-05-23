@@ -141,6 +141,7 @@ public class DailyScheduleTest {
         assertEquals(shouldBe, timeActual);
     }
 
+
     @Test
     void featureShortSessions01(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
@@ -162,6 +163,8 @@ public class DailyScheduleTest {
         assertEquals("15:15 - agile", mixSchedule.get(14));
     }
 
+
+
     @Test
     void featureLongSessions03(){
         int strings = 17;
@@ -174,6 +177,8 @@ public class DailyScheduleTest {
         assertEquals("00:00 - Must sleep to get the required sleep!", longSchedule.get(16));
     }
 
+
+
     @Test
     void sendDailyToDB(){
         DBApi dbc = new DBApi(rb.getString("dsn-test"));
@@ -184,5 +189,10 @@ public class DailyScheduleTest {
 
         dbc.removeDailyScheduleFromDB();
         dbc.resetIdDailyScheduleDB();
+        dropDBTables(dbc);
+    }
+
+    private void dropDBTables(DBConnect dbc) {
+        dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;");
     }
 }

@@ -133,7 +133,7 @@ public class DailySchedule {
         daily.add(free());
         daily.add(converter(this.endDay) + " - Must sleep to get the required sleep!");
         this.clock = startDay;
-        sendDailyScheduleToDB(daily);
+        //sendDailyScheduleToDB(daily);
 
         return daily;
     }
@@ -158,7 +158,7 @@ public class DailySchedule {
         daily.add(converter(this.endDay) + " - Goodnight!");
         this.clock = startDay;
 
-        sendDailyScheduleToDB(daily);
+        //sendDailyScheduleToDB(daily);
         return daily;
     }
 

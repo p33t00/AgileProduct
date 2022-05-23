@@ -38,6 +38,7 @@ class DBApiTest {
         assertEquals(scheduleItems.get(2).getTime(), resultItems.get(2).getTime());
 
         dbc.removeDailyScheduleFromDB();
+        dropDBTables(dbc);
     }
 
     @Test

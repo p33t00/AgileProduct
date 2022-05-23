@@ -60,7 +60,7 @@ public class ProfileController {
        }
        DailySchedule myDay = new DailySchedule(sleepTime, combineCourseWithTask, selfActivity, studyHr, studyMin);
 
-       myDay.ScheduleDayOnlyLongSession();
+       myDay.sendDailyScheduleToDB(myDay.ScheduleDayOnlyLongSession());
        onCancelClick(event);
     }
 }
