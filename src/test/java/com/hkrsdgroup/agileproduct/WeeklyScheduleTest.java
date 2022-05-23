@@ -1,138 +1,47 @@
 package com.hkrsdgroup.agileproduct;
 
-import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
+import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WeeklyScheduleTest {
 
     @Test
-    void courseRemoveDay(){
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
+    void createWeeklyOneTask() {
+        WeeklySchedule week = new WeeklySchedule();
 
-        int shouldBe3 = myCourse.getDifficultyNumber();
-        myCourse.CourseToString();
-        int shouldBe2 = myCourse.getDifficultyNumber();
+        List<TaskBean> taskList = new ArrayList<>();
+        taskList.add(new TaskBean("Agile", "Medium", 230514, "Project Work"));
+        taskList.add(new TaskBean("Math", "Hard", 230614, "Assignment"));
 
-        assertNotEquals(shouldBe3, shouldBe2);
-    }
+        ArrayList<CourseScheduleTaskBean> completeSchedule = week.createWeeklyOneTask(taskList);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String today = formatter.format(date);
 
-    @Test
-    void sortCoursesOnEndDate(){
-        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
-
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
-        myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "connection");
-        myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "learn functional programming");
-        myCourse.sortAddOnEndDate(myWeek, myCourse3);
-
-        assertEquals("python", myWeek.get(0).getCourseName());
-        assertEquals("agile", myWeek.get(1).getCourseName());
-        assertEquals("Database", myWeek.get(2).getCourseName());
-    }
-
-    @Test
-    void createWeekScheduleOneTask(){
-        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
-        ArrayList<ArrayList> completeWeek = new ArrayList<>();
-
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "hard", 220321, "learn jira");
-        myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "medium", 240321, "assignment connect");
-        myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "easy", 210532, "make clean code");
-        myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "easy", 210532, "implement functions");
-        myCourse.sortAddOnEndDate(myWeek, myCourse4);
-
-        completeWeek = myCourse.createWeeklyOneTask(myWeek);
-
-        for(int i = 0; i < completeWeek.size();i++){
-            System.out.println(completeWeek.get(i));
-        }
-    }
-
-    @Test
-    void checkCurrentDate(){
-        WeeklySchedule myCourse = new WeeklySchedule("Database", "medium", 240321, " create connection");
-        String correctDate = myCourse.todayDate();
-        System.out.println(correctDate);
-    }
-
-    @Test
-    void checkDateShouldBeTomorrow(){
-        WeeklySchedule myCourse = new WeeklySchedule("Database", "medium", 240321, " create connection");
-        String date = myCourse.todayDate();
-        myCourse.incrementDateOneDay(date);
-        System.out.println(myCourse.incrementDateOneDay(date));
-    }
-
-    @Test
-    void checkSecondCourse(){
-        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
-        String test = null;
-
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "Hard", 220321, "learn jira");
-        myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "Medium", 240321, "assignment connect");
-        myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "Easy", 210532, "make clean code");
-        myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "Easy", 210532, "implement functions");
-        myCourse.sortAddOnEndDate(myWeek, myCourse4);
-
-        test = myCourse.retrieveSecondCourseForDay(myWeek);
-        assertEquals("agile", test);
-    }
-
-    @Test
-    void checkSecondTask(){
-        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
-        String test = null;
-
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "Hard", 220321, "learn jira");
-        myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "Medium", 240321, "assignment connect");
-        myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "Easy", 210532, "make clean code");
-        myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "Easy", 210532, "implement functions");
-        myCourse.sortAddOnEndDate(myWeek, myCourse4);
-
-        test = myCourse.retrieveSecondTaskForDay(myWeek);
-        assertEquals(test, "learn jira");
-    }
-
-    @Test
-    void checkCompleteWeekWithTwoTasksADay(){
-        ArrayList<WeeklySchedule> myWeek = new ArrayList<>();
-        ArrayList<ArrayList> completeWeek = new ArrayList<>();
-
-        WeeklySchedule myCourse = new WeeklySchedule("agile", "Hard", 220321, "learn jira");
-        myCourse.sortAddOnEndDate(myWeek, myCourse);
-        WeeklySchedule myCourse2 = new WeeklySchedule("Database", "Medium", 210321, "assignment connect");
-        myCourse.sortAddOnEndDate(myWeek, myCourse2);
-        WeeklySchedule myCourse3 = new WeeklySchedule("python", "Easy", 210532, "make clean code");
-        myCourse.sortAddOnEndDate(myWeek, myCourse3);
-        WeeklySchedule myCourse4 = new WeeklySchedule("python", "Easy", 230532, "implement functions");
-        myCourse.sortAddOnEndDate(myWeek, myCourse4);
-
-        completeWeek = myCourse.createWeeklyTwoTasks(myWeek);
-        String todayDate = myCourse.todayDate();
-        String shouldBeDate = myCourse.incrementDateOneDay(todayDate).toString();
-
-        for(int i = 0;i < completeWeek.size();i++){
-            System.out.println(completeWeek.get(i));
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(formatter.parse(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        assertEquals(completeWeek.get(0).get(2),"assignment connect");
-        assertEquals(completeWeek.get(0).get(5), "agile");
-        assertEquals(completeWeek.get(0).get(1),shouldBeDate);
+        c.add(Calendar.DATE, 1);
+        String nxtDay = formatter.format(c.getTime());
+        c.add(Calendar.DATE, 1);
+        String dayAfter = formatter.format(c.getTime());
+
+        assertEquals(nxtDay, completeSchedule.get(0).getTaskDate());
+        assertEquals(dayAfter, completeSchedule.get(1).getTaskDate());
+
     }
 }
-

@@ -1,9 +1,11 @@
 package com.hkrsdgroup.agileproduct;
 
+import com.hkrsdgroup.agileproduct.beans.CourseScheduleTaskBean;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -22,12 +24,9 @@ public class DBApi extends DBConnect {
 
     public void initDBWeeklyOneTask(){
         updateRawQuery("CREATE TABLE IF NOT EXISTS course_schedule_tasks (" +
-                "dayID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                "dayCount VARCHAR(5)," +
-                "date VARCHAR(15)," +
-                "course VARCHAR(45)," +
-                "assignment VARCHAR(45)," +
-                "doneOrNot BOOLEAN DEFAULT false);");
+                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "taskId INTEGER," +
+                "taskDate VARCHAR(45));");
     }
 
     public void initDBCourseTask(){
@@ -51,6 +50,14 @@ public class DBApi extends DBConnect {
         updateRawQuery("DELETE FROM day_schedule_items;");
     }
 
+    public void removeTasksFromDB(){
+        updateRawQuery("DELETE FROM course_tasks;");
+    }
+
+    public void resetIdTasksScheduleDB(){
+        updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='course_tasks';");
+    }
+
     public void resetIdDailyScheduleDB(){
         updateRawQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='day_schedule_items';");
     }
@@ -65,7 +72,26 @@ public class DBApi extends DBConnect {
                 new BeanListHandler<>(TaskBean.class));
     }
 
+    public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskForTodayFromDB() {
+        List<CourseScheduleTaskBean> scheduleTasks = this.getEntity(
+                "SELECT * FROM course_schedule_tasks where taskDate like Date('now', '+1 day');",
+                new BeanListHandler<>(CourseScheduleTaskBean.class));
+        List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
+        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
+                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
+    }
+
+    public List<CourseScheduleTaskBean> retrieveCourseScheduleTaskFromDB() {
+        List<CourseScheduleTaskBean> scheduleTasks = this.getEntity("SELECT * FROM course_schedule_tasks;",
+                new BeanListHandler<>(CourseScheduleTaskBean.class));
+
+        List<TaskBean> rawTasks = retrieveCourseTaskFromDB();
+        return scheduleTasks.stream().peek(st -> st.setTask(rawTasks.stream()
+                .filter(t -> t.getId() == st.getTaskId()).findFirst().orElse(null))).toList();
+    }
+
     public void updateDailyItemState(int id, boolean state) {
         updateRawQuery(String.format("UPDATE day_schedule_items SET state = %b WHERE id = %d;", state, id));
     }
+
 }

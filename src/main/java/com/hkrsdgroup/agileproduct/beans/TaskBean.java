@@ -2,6 +2,8 @@ package com.hkrsdgroup.agileproduct.beans;
 
 public class TaskBean implements AgileBean{
     private final String table = "course_tasks";
+
+    private int id = 0;
     private String course = null;
     private String difficulty = null;
     private int deadline = 0;
@@ -14,6 +16,7 @@ public class TaskBean implements AgileBean{
         return this.table;
     }
 
+    
     public TaskBean(String course, String difficulty, int deadline, String task) {
         this.course = course;
         this.difficulty = difficulty;
@@ -21,6 +24,7 @@ public class TaskBean implements AgileBean{
         this.task = task;
     }
 
+    public int getId() { return id; }
     public String getCourse() {
         return course;
     }
@@ -34,15 +38,14 @@ public class TaskBean implements AgileBean{
         return task;
     }
 
+    public void setId(int id) { this.id = id; }
     public void setCourse(String course) {
         this.course = course;
     }
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
-    public void setDeadline(int deadline) {
-        this.deadline = deadline;
-    }
+    public void setDeadline(int deadline) { this.deadline = deadline; }
     public void setTask(String task) {
         this.task = task;
     }

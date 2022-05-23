@@ -1,7 +1,7 @@
 package com.hkrsdgroup.agileproduct;
 
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
-import com.hkrsdgroup.agileproduct.beans.TestBean;
+import com.hkrsdgroup.agileproduct.beans.TaskBean;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.junit.jupiter.api.Order;
@@ -42,23 +42,9 @@ public class DBConnectTest {
         rs.next();
         assertEquals("testing", rs.getString("name"));
         rs.close();
+        stmt.close();
+        conn.close();
 
-        // Clean up
-        dropTestTable(dbc);
-    }
-
-    @Test
-    @Order(3)
-    void shouldGetEntity() {
-        String assertVal = "Hallo world";
-        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
-        // init DB
-        createTestTable(dbc);
-        // inserting dummy data
-        dbc.updateRawQuery("INSERT INTO testing (test_field) VALUES ('" + assertVal + "');");
-        // Testing getEntity()
-        TestBean tb = dbc.getEntity("SELECT * FROM testing LIMIT 1;", new BeanHandler<>(TestBean.class));
-        assertEquals(assertVal, tb.getTest_field());
         // Clean up
         dropTestTable(dbc);
     }
@@ -66,40 +52,20 @@ public class DBConnectTest {
     @Test
     @Order(4)
     void shouldGetEntityByArgs() {
-        String assertVal = "Hallo world";
+        String assertVal = "Clean room";
         DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
         // init DB
-        createTestTable(dbc);
+        createDayScheduleItemsTable(dbc);
         // inserting dummy data
-        dbc.updateRawQuery("INSERT INTO testing (test_field) VALUES ('" + assertVal + "');");
+        dbc.updateRawQuery("INSERT INTO day_schedule_items (activity, time) VALUES ('" + assertVal + "', '02:30');");
         // Testing getEntity()
-        TestBean tb = dbc.getEntity(
-                "SELECT * FROM testing WHERE id = ? LIMIT 1;",
-                new BeanHandler<>(TestBean.class),
+        DayScheduleItemBean tb = dbc.getEntity(
+                "SELECT * FROM day_schedule_items WHERE id = ? LIMIT 1;",
+                new BeanHandler<>(DayScheduleItemBean.class),
                 1);
-        assertEquals(assertVal, tb.getTest_field());
+        assertEquals(assertVal, tb.getActivity());
         // Clean up
-        dropTestTable(dbc);
-    }
-
-    @Test
-    @Order(5)
-    void shouldGetEntityList() {
-        String assertVal1 = "Hallo world";
-        String assertVal2 = "Bye world";
-        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
-        // init DB
-        createTestTable(dbc);
-        // inserting dummy data
-        dbc.updateRawQuery("INSERT INTO testing (test_field) VALUES ('" + assertVal1 + "');");
-        dbc.updateRawQuery("INSERT INTO testing (test_field) VALUES ('" + assertVal2 + "');");
-        // Testing getEntity() List
-        List<TestBean> tb = dbc.getEntity("SELECT * FROM testing;", new BeanListHandler<>(TestBean.class));
-        assertEquals(assertVal1, tb.get(0).getTest_field());
-        assertEquals(assertVal2, tb.get(1).getTest_field());
-
-        // Clean up
-        dropTestTable(dbc);
+        dropDayScheduleItemsTable(dbc);
     }
 
     @Test
@@ -129,6 +95,43 @@ public class DBConnectTest {
         dropDayScheduleItemsTable(dbc);
     }
 
+    @Test
+    void retrieveCourseTaskFromDB() {
+        DBConnect dbc = new DBConnect(rb.getString("dsn-test"));
+        dropCourseTaskTable(dbc);
+
+        TaskBean task = new TaskBean("Agile", "Medium", 220625, "Project1");
+        TaskBean task1 = new TaskBean("Mathematics", "Hard", 2201009, "Examination 1");
+
+        initDBCourseTask(dbc);
+        dbc.insertTaskItems(task);
+        dbc.insertTaskItems(task1);
+
+        List<TaskBean> resultItems = dbc.getEntity("SELECT * FROM course_tasks;",
+                new BeanListHandler<>(TaskBean.class));
+
+        assertEquals(2, resultItems.size());
+
+        assertEquals(task.getCourse(), resultItems.get(0).getCourse());
+        assertEquals(task.getDeadline(), resultItems.get(0).getDeadline());
+        assertEquals(task.getDifficulty(), resultItems.get(0).getDifficulty());
+        assertEquals(task.getTask(), resultItems.get(0).getTask());
+
+        assertEquals(task1.getCourse(), resultItems.get(1).getCourse());
+        assertEquals(task1.getDeadline(), resultItems.get(1).getDeadline());
+        assertEquals(task1.getDifficulty(), resultItems.get(1).getDifficulty());
+        assertEquals(task1.getTask(), resultItems.get(1).getTask());
+    }
+
+    private void initDBCourseTask(DBConnect dbc) {
+        dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS course_tasks (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                "course VARCHAR(45)," +
+                "task VARCHAR(45)," +
+                "difficulty VARCHAR(45)," +
+                "deadline INTEGER);");
+    }
+
     private void createDayScheduleItemsTable(DBConnect dbc) {
         dbc.updateRawQuery("CREATE TABLE IF NOT EXISTS day_schedule_items (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
@@ -149,4 +152,8 @@ public class DBConnectTest {
     }
 
     private void dropDayScheduleItemsTable(DBConnect dbc) { dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;"); }
+
+    private void dropCourseTaskTable(DBConnect dbc) {
+        dbc.updateRawQuery("DROP TABLE IF EXISTS course_tasks;");
+    }
 }

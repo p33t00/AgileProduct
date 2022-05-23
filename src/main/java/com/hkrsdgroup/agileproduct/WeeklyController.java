@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -22,6 +23,7 @@ public class WeeklyController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private DBApi dbc = new DBApi();
 
     @FXML
     private TextField course_name;
@@ -46,25 +48,22 @@ public class WeeklyController implements Initializable {
 
     @FXML
     void onSubmitClick(ActionEvent event) throws IOException {
-        DBApi myCon = new DBApi();
-        myCon.removeWeeklyScheduleFromDB();
+        dbc.removeWeeklyScheduleFromDB();
 
         String course = course_name.getText();
         String task = task_name.getText();
         String level = difficulty.getValue();
         int endDate = Integer.parseInt(deadline.getText());
 
-        myCon.insertTaskItems(new TaskBean(course, level, endDate, task));
+        dbc.insertTaskItems(new TaskBean(course, level, endDate, task));
 
-        List<TaskBean> task_list = myCon.retrieveCourseTaskFromDB();
+        List<TaskBean> task_list = dbc.retrieveCourseTaskFromDB();
         WeeklySchedule weeklyData = new WeeklySchedule();
 
-        for (TaskBean t: task_list) {
-            WeeklySchedule myCourse = new WeeklySchedule(t.getCourse(), t.getDifficulty(), t.getDeadline(), t.getTask());
-            weeklyData.sortAddOnEndDate(weeklyData.getMyWeekList(), myCourse);
-        }
+        // sorting tasks by deadline
+        task_list.sort(Comparator.comparing(TaskBean::getDeadline));
 
-        myCon.insertWeeklyScheduleItems(weeklyData.createWeeklyOneTask(weeklyData.getMyWeekList()));
+        dbc.insertWeeklyScheduleItems(weeklyData.createWeeklyOneTask(task_list));
         onCancelClick(event);
     }
 

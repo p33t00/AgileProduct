@@ -3,11 +3,14 @@ package com.hkrsdgroup.agileproduct;
 import com.hkrsdgroup.agileproduct.beans.DayScheduleItemBean;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DailyScheduleTest {
+    private final ResourceBundle rb = ResourceBundle.getBundle("app");
 
     @Test
     void createDailyObject(){
@@ -29,7 +32,7 @@ public class DailyScheduleTest {
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         String breakfast = myDay.breakfast();
 
-        assertEquals("08:30 - Breakfast", breakfast);
+        assertEquals("08:00 - Breakfast", breakfast);
     }
 
     @Test
@@ -69,27 +72,17 @@ public class DailyScheduleTest {
     }
 
     @Test
-    void getWorkout(){
+    void getSelfActivity(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
 
-        assertEquals("gym", myDay.getWorkout());
+        assertEquals("gym", myDay.getSelfActivity());
     }
 
     @Test
     void getEndDay(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
 
-        assertEquals("00:30", myDay.converter(myDay.getEndDay()));
-    }
-
-    @Test
-    void getDayScheduleItems(){
-        DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
-
-        assertEquals(3, myDay.getDayScheduleItems().size());
-        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(0));
-        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(1));
-        assertInstanceOf(DayScheduleItemBean.class, myDay.getDayScheduleItems().get(2));
+        assertEquals("00:00", myDay.converter(myDay.getEndDay()));
     }
 
     @Test
@@ -109,11 +102,11 @@ public class DailyScheduleTest {
     }
 
     @Test
-    void setWorkout(){
+    void setSelfActivity(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
-        myDay.setWorkout("boxing");
+        myDay.setSelfActivity("boxing");
 
-        assertEquals("boxing", myDay.getWorkout());
+        assertEquals("boxing", myDay.getSelfActivity());
     }
 
     @Test
@@ -148,36 +141,58 @@ public class DailyScheduleTest {
         assertEquals(shouldBe, timeActual);
     }
 
+
     @Test
-    void featureShortSessions(){
+    void featureShortSessions01(){
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> shortSchedule = myDay.ScheduleDayOnlyShortSession();
 
-        assertEquals("08:30 - Breakfast", shortSchedule.get(0));
-        assertEquals("12:30 - Lunch", shortSchedule.get(13));
-        assertEquals("00:30 - Goodnight!", shortSchedule.get(24));
+        assertEquals("08:00 - Breakfast", shortSchedule.get(0));
+        assertEquals("12:00 - Lunch", shortSchedule.get(13));
+        assertEquals("00:00 - Goodnight!", shortSchedule.get(26));
     }
 
     @Test
-    void featureMixSessions(){
-        int strings = 11;
+    void featureMixSessions02(){
+        int strings = 19;
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> mixSchedule = myDay.ScheduleDayMixedSession();
 
         assertEquals(strings, mixSchedule.size());
-        assertEquals("08:30 - Breakfast", mixSchedule.get(0));
-        assertEquals("15:05 - long break", mixSchedule.get(7));
+        assertEquals("08:00 - Breakfast", mixSchedule.get(0));
+        assertEquals("15:15 - agile", mixSchedule.get(14));
     }
 
+
+
     @Test
-    void featureLongSessions(){
-        int strings = 9;
+    void featureLongSessions03(){
+        int strings = 17;
         DailySchedule myDay = new DailySchedule(8, "agile","gym", 8, 30);
         List<String> longSchedule = myDay.ScheduleDayOnlyLongSession();
 
         assertEquals(strings, longSchedule.size());
-        assertEquals("08:30 - Breakfast", longSchedule.get(0));
-        assertEquals("17:00 - long break", longSchedule.get(7));
-        assertEquals("00:30 - Goodnight!", longSchedule.get(8));
+        assertEquals("08:00 - Breakfast", longSchedule.get(0));
+        assertEquals("13:30 - agile", longSchedule.get(7));
+        assertEquals("00:00 - Must sleep to get the required sleep!", longSchedule.get(16));
+    }
+
+
+
+    @Test
+    void sendDailyToDB(){
+        DBApi dbc = new DBApi(rb.getString("dsn-test"));
+        dbc.initDB();
+        DailySchedule myDay = new DailySchedule(8,"agile","yoga",8,30);
+        myDay.setDBC(dbc);
+        myDay.ScheduleDayMixedSession(); // sends to test DB
+
+        dbc.removeDailyScheduleFromDB();
+        dbc.resetIdDailyScheduleDB();
+        dropDBTables(dbc);
+    }
+
+    private void dropDBTables(DBConnect dbc) {
+        dbc.updateRawQuery("DROP TABLE IF EXISTS day_schedule_items;");
     }
 }
